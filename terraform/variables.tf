@@ -22,22 +22,10 @@ variable "akc_name" {
   default     = "Clusterfuck"
 }
 
-variable "asa_name" {
-  description = "Azure Storgade Account name"
-  type        = string
-  default     = "oty"
-}
-
 variable "ara_name" {
   description = "Azure Role Assignment name"
   type        = string
   default     = "Role_Assignment"
-}
-
-variable "asc_name" {
-  description = "Azure Storage Container name"
-  type        = string
-  default     = "Massive_Unit"
 }
 
 variable "node_count" {

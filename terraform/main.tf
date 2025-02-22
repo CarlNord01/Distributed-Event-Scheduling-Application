@@ -100,18 +100,3 @@ resource "azurerm_role_assignment" "weje22wy_assignment_rg2" {
   role_definition_name = "Owner"
   principal_id         = data.azuread_user.weje22wy.object_id
 }
-
-resource "azurerm_storage_account" "asa" {
-  name                     = var.asa_name
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = var.location
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
-resource "azurerm_storage_container" "asc" {
-  name                  = "events"
-  storage_account_name  = azurerm_storage_account.asa.name
-  container_access_type = "private"
-}

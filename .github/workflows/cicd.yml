@@ -6,8 +6,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'event-app/**' # Only trigger on push to event-app subfolder.
+   # paths:
+   #   - 'event-app/**' # Only trigger on push to event-app subfolder.
   
   # Allows workflow to be invoked manually through the GitHub Actions user interface.
   workflow_dispatch:

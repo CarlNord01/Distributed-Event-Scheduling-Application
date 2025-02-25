@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-app
+  template:
+    metadata:
+      labels:
+        app: event-app
+    spec:
+      containers: 
+      - name: event-app
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/event-app:$VERSION
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "3000"
+        - name: STORAGE_ACCOUNT_NAME
+          value: $STORAGE_ACCOUNT_NAME
+        - name: STORAGE_ACCESS_KEY
+          value: $STORAGE_ACCESS_KEY
+        resources:
+          requests:
+            cpu: 126m
+            memory: 1024Mi
+          limits:
+            cpu: 256m
+            memory: 2048Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-app
+spec:
+  selector:
+    app: event-app
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

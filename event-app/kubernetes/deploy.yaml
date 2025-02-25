@@ -16,6 +16,8 @@ spec:
       - name: event-app
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/event-app:$VERSION
         imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 3000
         env:
         - name: PORT
           value: "3000"

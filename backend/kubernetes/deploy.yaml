@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers: 
+      - name: backend
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/loginms:$VERSION
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5001
+        env:
+        - name: PORT
+          value: "5001"
+        resources:
+          requests:
+            cpu: 126m
+            memory: 126Mi
+          limits:
+            cpu: 256m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001

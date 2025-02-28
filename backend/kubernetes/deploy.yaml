@@ -14,7 +14,7 @@ spec:
     spec:
       containers: 
       - name: backend
-        image: $CONTAINER_REGISTRY_LOGIN_SERVER/loginms:$VERSION
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 5001

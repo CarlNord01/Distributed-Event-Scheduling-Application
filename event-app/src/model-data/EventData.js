@@ -1,7 +1,7 @@
 
 export const getLatestEvents = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/events/latest`, {
+      const response = await fetch(`http://10.0.67.97:5001/api/events/latest`, {
         credentials: 'include'
       });
   

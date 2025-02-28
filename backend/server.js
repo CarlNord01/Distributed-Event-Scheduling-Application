@@ -25,12 +25,13 @@ const eventRoutes = require('./routes/eventRoutes');
 
 const app = express();
 const port = 5001; // Or any port of your choice
+const frontend_ip = '10.0.100.44'
 const { ObjectId } = require('mongodb');
 
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000', // Your frontend URL
+    origin: `http://${frontend_ip}:3000`, // Your frontend URL
     credentials: true // Allow cookies to be sent with requests
 }));
 
@@ -60,7 +61,7 @@ client.connect()
         logger.info('Connected successfully to MongoDB');
 
         app.listen(port, () => {
-            console.log(`Server is running on http://localhost:${port}`);
+            console.log(`Server is running on http://${frontend_ip}:${port}`);
             logger.info(`Server started on port: ${port}`);
         });
     })

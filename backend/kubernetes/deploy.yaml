@@ -17,10 +17,22 @@ spec:
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 5001   # Express listens on port 5001 as per your Dockerfile
+          - containerPort: 5001
         env:
-        - name: PORT
-          value: "5001"
+          - name: PORT
+            value: "5001"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: my-db-credentials
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-db-credentials
+                key: password
+          - name: SESSION_SECRET
+            value: "your-production-secret"  # Consider storing this in a secret as well!
         resources:
           requests:
             cpu: 126m
@@ -28,16 +40,3 @@ spec:
           limits:
             cpu: 256m
             memory: 256Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-spec:
-  selector:
-    app: backend
-  type: ClusterIP       # Internal only
-  ports:
-    - protocol: TCP
-      port: 80          # Internal service port
-      targetPort: 5001  # Forwards to Express' container port

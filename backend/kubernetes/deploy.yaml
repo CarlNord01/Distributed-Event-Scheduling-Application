@@ -12,12 +12,12 @@ spec:
       labels:
         app: backend
     spec:
-      containers: 
+      containers:
       - name: backend
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 5001
+          - containerPort: 5001  # Express listens on 5001
         env:
         - name: PORT
           value: "5001"
@@ -28,6 +28,7 @@ spec:
           limits:
             cpu: 256m
             memory: 256Mi
+
 ---
 apiVersion: v1
 kind: Service
@@ -36,8 +37,8 @@ metadata:
 spec:
   selector:
     app: backend
-  type: ClusterIP
+  type: ClusterIP        # Internal-only by default
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 5001
+      port: 80           # The Service port inside the cluster
+      targetPort: 5001   # Forward to the container's 5001

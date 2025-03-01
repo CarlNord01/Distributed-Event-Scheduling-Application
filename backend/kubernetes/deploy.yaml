@@ -17,7 +17,7 @@ spec:
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 5001  # Express listens on 5001
+          - containerPort: 5001   # Express listens on port 5001 as per your Dockerfile
         env:
         - name: PORT
           value: "5001"
@@ -28,7 +28,6 @@ spec:
           limits:
             cpu: 256m
             memory: 256Mi
-
 ---
 apiVersion: v1
 kind: Service
@@ -37,8 +36,8 @@ metadata:
 spec:
   selector:
     app: backend
-  type: ClusterIP        # Internal-only by default
+  type: ClusterIP       # Internal only
   ports:
     - protocol: TCP
-      port: 80           # The Service port inside the cluster
-      targetPort: 5001   # Forward to the container's 5001
+      port: 80          # Internal service port
+      targetPort: 5001  # Forwards to Express' container port

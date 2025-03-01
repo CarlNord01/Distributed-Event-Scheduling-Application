@@ -12,12 +12,12 @@ spec:
       labels:
         app: event-app
     spec:
-      containers: 
+      containers:
       - name: event-app
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/event-app:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 3000
+          - containerPort: 3000    # The container listens on 3000
         env:
         - name: PORT
           value: "3000"
@@ -28,6 +28,7 @@ spec:
           limits:
             cpu: 256m
             memory: 2048Mi
+
 ---
 apiVersion: v1
 kind: Service
@@ -39,5 +40,5 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 80           # The external Service port
+      targetPort: 3000   # Must match containerPort (3000)

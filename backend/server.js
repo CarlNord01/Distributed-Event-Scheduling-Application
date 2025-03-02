@@ -30,20 +30,27 @@ const { ObjectId } = require('mongodb');
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: `http://9.223.201.161:80`, // Your frontend URL
+    origin: `http://9.223.201.161`, // Your frontend URL
     credentials: true
 }));
 
-// Configure sessions
+app.use((req, res, next) => {
+    console.log("Session Data:", req.session);
+    next();
+});
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'mysecretkey', // Use a secure secret in production
     resave: false,
     saveUninitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24, // 1 day
-        secure: false // Set this to `true` if using HTTPS
+        secure: false, // Use secure cookies in production
+        httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+        sameSite: "none"
     }
 }));
+
 
 // MongoDB setup
 const username = process.env.DB_USERNAME;

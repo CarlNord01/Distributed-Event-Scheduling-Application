@@ -20,7 +20,7 @@ Group 13
 ---
 
 ## What We Will Implement:
-We will modify the event scheduling application to be distributed and fault tolerant.
+We will modify the event scheduling application to be scalable and fault tolerant.
 
 The languages we are going to use are:
 - JavaScript

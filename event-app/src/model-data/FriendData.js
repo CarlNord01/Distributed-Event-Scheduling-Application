@@ -2,7 +2,7 @@ import axios from 'axios';
 export const sendFriendRequest = async (targetUserId) => {
     try {
       // Make POST request to backend
-      axios.post(`http://localhost:5001/api/friend-request/${targetUserId}`, { withCredentials: true })
+      axios.post(`http://9.223.200.206:5001/api/friend-request/${targetUserId}`, { withCredentials: true })
         .then((response) => {
           // Update UI to notify the user of success! 
         })
@@ -22,7 +22,7 @@ export const sendFriendRequest = async (targetUserId) => {
   };
   export const killFriend = async (victimId) => {
     try {
-        const response = await fetch(`http://localhost:5001/api/friend/remove/${victimId}`, {
+        const response = await fetch(`http://9.223.200.206:5001/api/friend/remove/${victimId}`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -37,7 +37,7 @@ export const sendFriendRequest = async (targetUserId) => {
 
   export const getUserFriends = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/friends`, {
+      const response = await fetch(`http://9.223.200.206:5001/api/friends`, {
         credentials: 'include'
       });
   
@@ -63,7 +63,7 @@ export const sendFriendRequest = async (targetUserId) => {
 
   export const checkFriend = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/friends/checkfriend/${userId}`, {
+      const response = await fetch(`http://9.223.200.206:5001/api/friends/checkfriend/${userId}`, {
         credentials: 'include'
       });
   
@@ -88,7 +88,7 @@ export const sendFriendRequest = async (targetUserId) => {
 
   export const checkPendingRequest = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/friends/checkfriend/request/${userId}`, {
+      const response = await fetch(`http://9.223.200.206:5001/api/friends/checkfriend/request/${userId}`, {
         credentials: 'include'
       });
   

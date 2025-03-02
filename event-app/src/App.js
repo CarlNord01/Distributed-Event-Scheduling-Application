@@ -59,7 +59,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://9.223.200.206:5001/api/logout', {
+      const response = await fetch('http://9.223.200.206:80/api/logout', {
         method: 'POST',
         credentials: 'include', // Ensure cookies are sent with the request
       });
@@ -82,7 +82,7 @@ function App() {
   
   const checkSession = async () => {
     try {
-        const response = await axios.get('http://9.223.200.206:5001/api/session');
+        const response = await axios.get('http://9.223.200.206:80/api/session');
         if (response.data.user) {
             console.log('Active session found:', response.data.user);
         }

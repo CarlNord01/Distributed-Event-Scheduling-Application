@@ -12,7 +12,7 @@ function RequestCard({ name, id, onAccept, onDecline }) {
 
     const handleAccept = async () => {
         try {
-            const response = await fetch(`http://9.223.200.206:5001/api/friend-request/accept/${id}`, {
+            const response = await fetch(`http://9.223.200.206:80/api/friend-request/accept/${id}`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -29,7 +29,7 @@ function RequestCard({ name, id, onAccept, onDecline }) {
 
     const handleDecline = async () => {
         try {
-            const response = await fetch(`http://9.223.200.206:5001/api/friend-request/decline/${id}`, {
+            const response = await fetch(`http://9.223.200.206:80/api/friend-request/decline/${id}`, {
                 method: 'POST',
                 credentials: 'include',
             });

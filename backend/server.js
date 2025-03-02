@@ -29,10 +29,7 @@ const { ObjectId } = require('mongodb');
 
 // Middleware
 app.use(express.json());
-app.use(cors({
-    origin: `http://9.223.201.161:80`, // Your frontend URL
-    credentials: true // Allow cookies to be sent with requests
-}));
+app.use(cors());
 
 // Configure sessions
 app.use(session({

@@ -117,7 +117,7 @@ class CreateEventPage extends React.Component {
     };
   
     // Send a POST request to create a new event
-    axios.post('http://localhost:5001/api/create-new-event', eventData, { withCredentials: true })
+    axios.post('http://9.223.200.206:80/api/create-new-event', eventData, { withCredentials: true })
       .then((response) => {
         // Redirect to the event details page after successful creation
         this.props.navigate(`/event/${response.data.eventId}`);

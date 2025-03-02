@@ -30,7 +30,7 @@ const { ObjectId } = require('mongodb');
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: `http://event-app:3000`, // Your frontend URL
+    origin: `http://9.223.201.161/`, // Your frontend URL
     credentials: true // Allow cookies to be sent with requests
 }));
 

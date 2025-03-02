@@ -48,7 +48,7 @@ metadata:
 spec:
   selector:
     app: backend
-  type: ClusterIP  # Changed from LoadBalancer to ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80        # Internal port in the cluster

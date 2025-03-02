@@ -52,5 +52,5 @@ spec:
   type: LoadBalancer  # Exposes the backend externally with a public IP
   ports:
     - protocol: TCP
-      port: 80         # Public port on the service
+      port: 5001        # Public port on the service
       targetPort: 5001 # Forwards to the container's port

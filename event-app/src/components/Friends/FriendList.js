@@ -12,7 +12,7 @@ function FriendList() {
   useEffect(() => {
       const fetchUserId = async () => {
           try {
-              const response = await fetch('http://9.223.200.206:80/api/session', {
+              const response = await fetch('http://backend:80/api/session', {
                   credentials: 'include'
               });
 

@@ -15,7 +15,7 @@ function UserList() {
         const fetchData = async () => {
             try {
                 // fatches all users from the database (only _id and usernames)
-                const response = await fetch('http://localhost/api/users', { credentials: 'include' });
+                const response = await fetch('http://9.223.106.132/api/users', { credentials: 'include' });
                 const data = await response.json();
                 setUser(data); // Stores the full list of users
                 setTempFilteredUser(data); // Initializes the filtered list with the unfiltered user data

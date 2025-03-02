@@ -31,6 +31,7 @@ const { ObjectId } = require('mongodb');
 app.use(express.json());
 app.use(cors({
     origin: `http://9.223.201.161:80`, // Your frontend URL
+    credentials: true
 }));
 
 // Configure sessions

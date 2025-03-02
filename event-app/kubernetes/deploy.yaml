@@ -12,22 +12,19 @@ spec:
       labels:
         app: event-app
     spec:
-      containers: 
+      containers:
       - name: event-app
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/event-app:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 3000
-        env:
-        - name: PORT
-          value: "3000"
+          - containerPort: 80   # NGINX listens on port 80 (per your Dockerfile)
         resources:
           requests:
             cpu: 126m
-            memory: 1024Mi
+            memory: 256Mi
           limits:
             cpu: 256m
-            memory: 2048Mi
+            memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -39,5 +36,5 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 80          # External port to reach the service
+      targetPort: 80    # Matches containerPort (NGINX)

@@ -1,6 +1,6 @@
 export const findSession = async () => {
     try {
-        const response = await fetch(`http://localhost:5001/api/session`, {
+        const response = await fetch(`http://9.223.106.132/api/session`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -21,7 +21,7 @@ export const findSession = async () => {
 
 export const userLogin = async (username, password) => {
     try {
-        const response = await fetch(`http://localhost:5001/api/login`, {
+        const response = await fetch(`http://9.223.106.132/api/login`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

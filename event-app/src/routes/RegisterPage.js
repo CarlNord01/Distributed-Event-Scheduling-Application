@@ -109,7 +109,7 @@ const RegistrationPage = () => {
     
             try {
                 // Make POST request to the backend
-                const response = await axios.post('http://localhost:5001/api/register', {
+                const response = await axios.post('http://9.223.106.132/api/register', {
                     email: form.email,
                     username: form.username,
                     password: form.password

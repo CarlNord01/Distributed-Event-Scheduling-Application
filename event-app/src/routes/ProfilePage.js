@@ -28,7 +28,7 @@ function ProfilePage() {
     if (!userId || !session) return;  // Ensure both userId and session are available
 
     // Fetch user data
-    axios.get(`http://localhost:5001/api/user/${userId}`)
+    axios.get(`http://9.223.106.132/api/user/${userId}`)
       .then(response => {
         setUser(response.data.user);
       })
@@ -46,7 +46,7 @@ function ProfilePage() {
         const isOwner = session && session.userId === userId; // Check if viewing own profile
         if (isOwner) {
           // If viewing own profile, fetch all events
-          const eventsResponse = await axios.get(`http://localhost:5001/api/user/${userId}/events`);
+          const eventsResponse = await axios.get(`http://9.223.106.132/api/user/${userId}/events`);
           setEvents(eventsResponse.data);
         } else {
           // Fetch friend status
@@ -55,11 +55,11 @@ function ProfilePage() {
 
           if (friendStatus) {
             // If they are friends, fetch all events (public and private)
-            const eventsResponse = await axios.get(`http://localhost:5001/api/user/${userId}/events`);
+            const eventsResponse = await axios.get(`http://9.223.106.132/api/user/${userId}/events`);
             setEvents(eventsResponse.data);
           } else {
             // If not friends, fetch only public events
-            const eventsResponse = await axios.get(`http://localhost:5001/api/user/${userId}/public-events`);
+            const eventsResponse = await axios.get(`http://9.223.106.132/api/user/${userId}/public-events`);
             setEvents(eventsResponse.data);
           }
         }

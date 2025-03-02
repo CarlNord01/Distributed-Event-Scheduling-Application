@@ -40,7 +40,7 @@ function EventList() {
     // Fetch logged-in user's ID
     const fetchUserId = async () => {
         try {
-            const response = await fetch('http://localhost:5001/api/session', {
+            const response = await fetch('http://9.223.106.132/api/session', {
                 credentials: 'include'
             });
 
@@ -65,7 +65,7 @@ function EventList() {
     const fetchPublicEvents = async () => {
       try {
         // fetch all public events
-        const publicEventsResponse = await fetch('http://localhost:5001/api/events/public', {
+        const publicEventsResponse = await fetch('http://9.223.106.132/api/events/public', {
           credentials: 'include',
         });
         if (!publicEventsResponse.ok) {
@@ -107,7 +107,7 @@ function EventList() {
           fetchedFriends.map(async (request) => {
             try {
               const userResponse = await fetch(
-                `http://localhost:5001/api/user/${request.id}/private-events`,
+                `http://9.223.106.132/api/user/${request.id}/private-events`,
                 { credentials: 'include' }
               );
               if (!userResponse.ok) {
@@ -124,7 +124,7 @@ function EventList() {
 
         // Fetch current user's private events
         const userEventsResponse = await fetch(
-          `http://localhost:5001/api/user/${userId}/private-events`,
+          `http://9.223.106.132/api/user/${userId}/private-events`,
           { credentials: 'include' }
         );
         if (!userEventsResponse.ok) {

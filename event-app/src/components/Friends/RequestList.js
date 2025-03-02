@@ -11,7 +11,7 @@ function RequestList() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const response = await fetch('http://backend:80/api/session', {
+                const response = await fetch('http://9.223.106.132:80/api/session', {
                     credentials: 'include'
                 });
 
@@ -37,7 +37,7 @@ function RequestList() {
 
         const fetchFriendRequests = async () => {
             try {
-                const response = await fetch(`http://backend:80/api/friend-requests/${userId}`, {
+                const response = await fetch(`http://9.223.106.132:80/api/friend-requests/${userId}`, {
                     credentials: 'include'
                 });
 
@@ -51,7 +51,7 @@ function RequestList() {
                 // Fetch usernames for each request
                 const requestsWithUsernames = await Promise.all(requests.map(async (request) => {
                   try {
-                      const userResponse = await fetch(`http://backend:80/api/user-summary/${request.sender}`, {
+                      const userResponse = await fetch(`http://9.223.106.132:80/api/user-summary/${request.sender}`, {
                           credentials: 'include'
                       });
               

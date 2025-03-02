@@ -16,7 +16,7 @@ function EventPage() {
 
   useEffect(() => {
     // fetches event details using event_id
-    fetch(`http://backend:80/api/event/${event_id}`)
+    fetch(`http://9.223.106.132:80/api/event/${event_id}`)
       .then(response => {
         if (!response.ok) throw new Error('Event not found');
         return response.json();
@@ -28,7 +28,7 @@ function EventPage() {
         setEvent({ ...data, startDateTime, endDateTime });
 
         // Fetch the owner's username by their userId (from the `owner` field)
-        return fetch(`http://backend:80/api/user/${data.owner}`);
+        return fetch(`http://9.223.106.132:80/api/user/${data.owner}`);
       })
       .then(response => {
         if (!response.ok) throw new Error('User not found');

@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,8 +48,8 @@ metadata:
 spec:
   selector:
     app: backend
-  type: LoadBalancer  # Exposes the backend externally with a public IP
+  type: ClusterIP  # Changed from LoadBalancer to ClusterIP
   ports:
     - protocol: TCP
-      port: 80        # Public port on the service
+      port: 80        # Internal port in the cluster
       targetPort: 5001 # Forwards to the container's port

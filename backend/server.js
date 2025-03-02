@@ -1,7 +1,7 @@
 // Includes
 const express = require('express');
 const { MongoClient } = require('mongodb');
-const cors = require('cors');
+//const cors = require('cors');
 const bcrypt = require('bcrypt');
 const session = require('express-session'); // Import express-session
 require('dotenv').config();
@@ -29,7 +29,7 @@ const { ObjectId } = require('mongodb');
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+//app.use(cors());
 
 // Configure sessions
 app.use(session({

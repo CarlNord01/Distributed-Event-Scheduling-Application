@@ -1,12 +1,18 @@
 // Includes
 const express = require('express');
-const { createEvent, publicEvents, latestEvents, eventByID, currentUserEvents, userEvents, userPrivateEvents, userPublicEvents } = require('./event_functions');
+const { sendRequest,
+    listRequests,
+    acceptRequest,
+    declineRequest,
+    listFriends,
+    checkFriendness,
+    checkFriendRequestStatus,
+    removeFriend 
+} = require('./friend_functions');
 const { MongoClient } = require('mongodb');
-const cors = require('cors');
-const bcrypt = require('bcrypt');
-const session = require('express-session'); // Import express-session
-require('dotenv').config();
 const winston = require('winston');
+const jwt = require('jsonwebtoken');
+require('dotenv').config(); // Load environment variables
 
 // Logger setup
 const logger = winston.createLogger({
@@ -21,37 +27,46 @@ const logger = winston.createLogger({
     ]
 });
 
-// Import routes
-const eventRoutes = require('./routes/eventRoutes');
-
 const app = express();
-const port = 5001; // Or any port of your choice
+const port = 5052;
 const { ObjectId } = require('mongodb');
 
-// Middleware
-app.use(express.json());
-app.use(cors({
-    origin: `http://9.223.201.161`, // Your frontend URL
-    credentials: true
-}));
+// MiddleWare
+app.use(express.json())
+app.use((req,res,next)=>{
+    console.log(req.path,req.method)
+    next()
+})
 
-app.use((req, res, next) => {
-    console.log("Session Data:", req.session);
-    next();
-});
+const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'mysecretkey', // Use a secure secret in production
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
-        secure: false, // Use secure cookies in production
-        httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-        sameSite: "none"
+// Function to verify JWT
+function verifyToken(token) {
+    try {
+        return jwt.verify(token, JWT_SECRET);
+    } catch (error) {
+        return null; // Token verification failed
     }
-}));
-
+  }
+  
+  // Middleware for JWT verification
+function authenticate(req, res, next) {
+    const authHeader = req.headers.authorization;
+  
+    if (authHeader) {
+      const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
+      const decoded = verifyToken(token);
+  
+      if (decoded) {
+        req.user = decoded; // Attach user info to request
+        next();
+      } else {
+        res.sendStatus(403); // Forbidden
+      }
+    } else {
+      res.sendStatus(401); // Unauthorized
+    }
+}
 
 // MongoDB setup
 const username = process.env.DB_USERNAME;
@@ -68,7 +83,7 @@ client.connect()
         logger.info('Connected successfully to MongoDB');
 
         app.listen(port, () => {
-            console.log(`Server is running!`);
+            console.log(`Server started on port: ${port}`);
             logger.info(`Server started on port: ${port}`);
         });
     })

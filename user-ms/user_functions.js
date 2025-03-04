@@ -1,4 +1,10 @@
-// NEED TO RESOLVE DEPENDENCIES PROBABLY: MONGODB
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
+
+function generateToken(payload) {
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Adjust expiration as needed
+}
+
 const registerUser = async (req, res) => {
     try {
         const { email, username, password } = req.body;
@@ -44,7 +50,6 @@ const registerUser = async (req, res) => {
         logger.error(`Error registering user: ${error}`); // Log the error
         res.status(500).json({ message: 'Registration failed', error: error.message });
     }
-    return res;
 }
 
 const loginUser = async (req, res) => {
@@ -68,12 +73,13 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
 
-        // Create session upon successful login
-        req.session.user = {
-            userId: user._id,
-            username: user.username,
-            email: user.email
+        // Generate JWT upon successful login
+        const payload = { 
+            userId: user._id.toString(), // Convert ObjectId to string
+            username: user.username, 
+            email: user.email 
         };
+        const token = generateToken(payload);
 
         // Authentication successful
         return res.status(200).json({ message: 'Login successful', user: req.session.user });
@@ -81,7 +87,6 @@ const loginUser = async (req, res) => {
         logger.error(`Login error: ${error}`); // Log the error
         res.status(500).json({ message: 'Login failed', error });
     }
-    return res;
 }
 
 const userDataByID = async (req, res) => {
@@ -140,17 +145,6 @@ const userSummary = async (req, res) => {
         logger.error('Error fetching user summary:', error);
         res.status(500).json({ message: 'Failed to fetch user summary', error: error.message });
     }
-    return res;
-}
-
-const logoutUser = async (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Logout failed', error: err });
-        }
-        res.clearCookie('connect.sid'); // Clear the session cookie
-        res.status(200).json({ message: 'Logout successful' });
-    });
     return res;
 }
 

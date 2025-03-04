@@ -1,4 +1,3 @@
-// NEED TO RESOLVE DEPENDENCIES PROBABLY: MONGODB
 const createEvent = async (req, res) => {
     try {
         if (!req.session.user) {

@@ -20,4 +20,4 @@ spec:
           service:
             name: backend  # Replace with your backend service name
             port:
-              number: 5001            # Replace with your backend port
+              number: 80            # Replace with your backend port

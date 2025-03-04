@@ -1,14 +1,12 @@
 // Includes
 const express = require('express');
-const { sendRequest,
-    listRequests,
-    acceptRequest,
-    declineRequest,
-    listFriends,
-    checkFriendness,
-    checkFriendRequestStatus,
-    removeFriend 
-} = require('./friend_functions');
+const { 
+    registerUser, 
+    loginUser, 
+    userDataByID, 
+    userSummary,  
+    allUsers 
+} = require('./user_functions');
 const { MongoClient } = require('mongodb');
 const winston = require('winston');
 const jwt = require('jsonwebtoken');
@@ -28,7 +26,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
-const port = 5052;
+const port = 5050;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
@@ -98,16 +96,16 @@ app.use((req, res, next) => {
 });
 
 // Register new user
-app.post('/user/register', registerUser);
+app.post('/register/', registerUser);
 
 // Login endpoint
-app.post('/user/login', loginUser);
+app.post('/login/', loginUser);
 
 // Get user data by ID
-app.get('/user/:userId', userDataByID);
+app.get('/data/:userId/', userDataByID);
 
 // Get username and userId by ID
-app.get('/user/summary/:userId', userSummary);
+app.get('/summary/:userId/', userSummary);
 
 // Fetch all users from the database (only username and _id)
-app.get('/api/users', allUsers);
+app.get('/all/', allUsers);

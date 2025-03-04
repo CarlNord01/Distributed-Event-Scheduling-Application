@@ -1,14 +1,15 @@
 // Includes
 const express = require('express');
-const { sendRequest,
-    listRequests,
-    acceptRequest,
-    declineRequest,
-    listFriends,
-    checkFriendness,
-    checkFriendRequestStatus,
-    removeFriend 
-} = require('./friend_functions');
+const { 
+    createEvent, 
+    publicEvents, 
+    latestEvents, 
+    eventByID, 
+    currentUserEvents, 
+    userEvents, 
+    userPrivateEvents, 
+    userPublicEvents 
+} = require('./event_functions');
 const { MongoClient } = require('mongodb');
 const winston = require('winston');
 const jwt = require('jsonwebtoken');
@@ -28,7 +29,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
-const port = 5052;
+const port = 5051;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare

@@ -170,3 +170,14 @@ const userPublicEvents = async (req, res) => {
     }
     return res;
 }
+
+module.exports = {
+    createEvent,
+    publicEvents,
+    latestEvents,
+    eventByID,
+    currentUserEvents,
+    userEvents,
+    userPrivateEvents,
+    userPublicEvents
+};

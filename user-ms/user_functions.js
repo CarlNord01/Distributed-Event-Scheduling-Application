@@ -47,7 +47,7 @@ const registerUser = async (req, res) => {
 
         res.status(201).json({ message: 'User registered successfully', userId: result.insertedId });
     } catch (error) {
-        logger.error(`Error registering user: ${error}`); // Log the error
+        console.error(`Error registering user: ${error}`); // Log the error
         res.status(500).json({ message: 'Registration failed', error: error.message });
     }
 }
@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
         // Authentication successful
         return res.status(200).json({ message: 'Login successful', user: req.session.user });
     } catch (error) {
-        logger.error(`Login error: ${error}`); // Log the error
+        console.error(`Login error: ${error}`); // Log the error
         res.status(500).json({ message: 'Login failed', error });
     }
 }
@@ -92,10 +92,10 @@ const loginUser = async (req, res) => {
 const userDataByID = async (req, res) => {
     try {
         const userId = req.params.userId;
-        logger.info('Received userId:', userId);
+        console.log('Received userId:', userId);
     
         if (!ObjectId.isValid(userId)) {
-        logger.info('Invalid ObjectId:', userId);
+        console.log('Invalid ObjectId:', userId);
         return res.status(400).json({ message: 'Invalid user ID' });
         }
     
@@ -105,14 +105,14 @@ const userDataByID = async (req, res) => {
         );
     
         if (!user) {
-        logger.info('User not found for ID:', userId);
+        console.log('User not found for ID:', userId);
         return res.status(404).json({ message: 'User not found' });
         }
-    
-        logger.info('User found:', user);
+        
+        console.log('User found:', user);
         res.status(200).json({ user });
     } catch (error) {
-        logger.error('Error fetching user data:', error);
+        console.error('Error fetching user data:', error);
         res.status(500).json({ message: 'Failed to fetch user data', error: error.message });
     }
     return res;
@@ -121,10 +121,10 @@ const userDataByID = async (req, res) => {
 const userSummary = async (req, res) => {
     try {
         const userId = req.params.userId;
-        logger.info('Received userId:', userId);
+        console.log('Received userId:', userId);
 
         if (!ObjectId.isValid(userId)) {
-            logger.info('Invalid ObjectId:', userId);
+            console.log('Invalid ObjectId:', userId);
             return res.status(400).json({ message: 'Invalid user ID' });
         }
 
@@ -135,14 +135,14 @@ const userSummary = async (req, res) => {
         );
 
         if (!user) {
-            logger.info('User not found for ID:', userId);
+            console.log('User not found for ID:', userId);
             return res.status(404).json({ message: 'User not found' });
         }
 
         // Return only the necessary fields
         res.status(200).json({ userId: user._id, username: user.username });
     } catch (error) {
-        logger.error('Error fetching user summary:', error);
+        console.error('Error fetching user summary:', error);
         res.status(500).json({ message: 'Failed to fetch user summary', error: error.message });
     }
     return res;
@@ -156,10 +156,18 @@ const allUsers = async (req, res) => {
             .toArray();
         
         res.status(200).json(users);
-        logger.info(`Found username: ${users.username}. User id: ${users._id}`);
+        console.log(`Found username: ${users.username}. User id: ${users._id}`);
     } catch (err) {
-        logger.error('Failed to retrieve users:', err);
+        console.error('Failed to retrieve users:', err);
         res.status(500).json({ message: 'Failed to retrieve users', error: err.message });
     }
     return res;
 }
+
+module.exports = {
+    registerUser,
+    loginUser,
+    userDataByID,
+    userSummary,
+    allUsers
+};

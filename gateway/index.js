@@ -1,32 +1,49 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+require('dotenv').config(); // Load environment variables
+
 const app = express();
 
 // Middleware to parse request body
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: `http://9.223.201.161`, // Frontend URL
+    credentials: true
+}));
 app.use(express.urlencoded({ extended: true }));
 
+const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
+
+// Proxy Middleware with JWT verification
 function createDynamicProxy(targetIP) {
-  return createProxyMiddleware({ 
-    target: `http://${targetIP}`, 
-    changeOrigin: true,
-    onProxyReq:(proxyReq, req, res) => {
-      if (req.body) {
-        const bodyData = JSON.stringify(req.body);
-        proxyReq.setHeader('Content-Type', 'application/json');
-        proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-        proxyReq.write(bodyData);
-      }
-    }
-  });
+    return createProxyMiddleware({
+        target: `http://${targetIP}`,
+        changeOrigin: true,
+        onProxyReq: (proxyReq, req, res) => {
+            if (req.body) {
+                const bodyData = JSON.stringify(req.body);
+                proxyReq.setHeader('Content-Type', 'application/json');
+                proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+                proxyReq.write(bodyData);
+            }
+
+            // Forward JWT in Authorization header
+            if (req.headers.authorization) {
+                proxyReq.setHeader('Authorization', req.headers.authorization);
+            }
+        },
+        onError: (err, req, res) => {
+          console.error("Proxy Error:", err);
+          res.status(500).send({ error: "Proxy error occurred" });
+        }
+    });
 }
 
 app.use('/events', createDynamicProxy('xxx.xxx.xxx.xxx'));          // events-ms
 app.use('/user', createDynamicProxy('xxx.xxx.xxx.xxx'));            // user-ms
-app.use('/friends', createDynamicProxy('xxx.xxx.xxx.xxx'));         // friends-ms
-// SESSIONS?!
+app.use('/friends', createDynamicProxy('localhost:5052'));          // friends-ms
 
 app.get('/health', (req, res) => {
   res.sendStatus(200);

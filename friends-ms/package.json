@@ -1,7 +1,7 @@
 {
-  "name": "gateway",
+  "name": "friends-ms",
   "version": "1.0.0",
-  "description": "gateway for microservices",
+  "description": "friends microservice",
   "license": "MIT",
   "author": "",
   "type": "commonjs",
@@ -11,10 +11,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "cors": "^2.8.5",
+    "axios": "^1.8.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "http-proxy-middleware": "^3.0.3",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.14.1",
+    "winston": "^3.17.0"
   }
 }

@@ -8,7 +8,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-
 function createDynamicProxy(targetIP) {
   return createProxyMiddleware({ 
     target: `http://${targetIP}`, 
@@ -26,8 +25,8 @@ function createDynamicProxy(targetIP) {
 
 app.use('/events', createDynamicProxy('xxx.xxx.xxx.xxx'));          // events-ms
 app.use('/user', createDynamicProxy('xxx.xxx.xxx.xxx'));            // user-ms
-app.use('/login', createDynamicProxy('xxx.xxx.xxx.xxx'));           // login-ms
 app.use('/friends', createDynamicProxy('xxx.xxx.xxx.xxx'));         // friends-ms
+// SESSIONS?!
 
 app.get('/health', (req, res) => {
   res.sendStatus(200);

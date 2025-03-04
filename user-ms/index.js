@@ -1,6 +1,6 @@
 // Includes
 const express = require('express');
-const { createEvent, publicEvents, latestEvents, eventByID, currentUserEvents, userEvents, userPrivateEvents, userPublicEvents } = require('./event_functions');
+const { registerUser, loginUser, userDataByID, userSummary, logoutUser, allUsers } = require('./user_functions');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
@@ -82,26 +82,20 @@ app.use((req, res, next) => {
     next();
 });
 
-// Create a new event
-app.post('/events/create-new', createEvent);
+// Register new user
+app.post('/user/register', registerUser);
 
-// Fetch all public events from the database
-app.get('/events/public', publicEvents);
+// Login endpoint
+app.post('/user/login', loginUser);
 
-// Fetch 3 latest events
-app.get('/events/latest', latestEvents);
+// Get user data by ID
+app.get('/user/:userId', userDataByID);
 
-// Define API route to get a single event by ID
-app.get('/events/:id', eventByID);
+// Get username and userId by ID
+app.get('/user/summary/:userId', userSummary);
 
-// Fetch events owned by the current user
-app.get('/events/user', currentUserEvents);
+// Logout endpoint
+app.post('/user/logout', logoutUser);
 
-// Fetch events for a specific user
-app.get('/events/user/:userId', userEvents);
-
-// Fetch private events for a specific user
-app.get('/events/user/:userId/private', userPrivateEvents);
-
-// Fetch public events for a specific user
-app.get('/events/user/:userId/public', userPublicEvents);
+// Fetch all users from the database (only username and _id)
+app.get('/api/users', allUsers);

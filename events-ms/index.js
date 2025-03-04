@@ -29,7 +29,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
-const port = 5051;
+const port = 5050;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
@@ -99,25 +99,25 @@ app.use((req, res, next) => {
 });
 
 // Create a new event
-app.post('/events/create-new', createEvent);
+app.post('/create-new', authenticate, createEvent);
 
 // Fetch all public events from the database
-app.get('/events/public', publicEvents);
+app.get('/public', publicEvents);
 
 // Fetch 3 latest events
-app.get('/events/latest', latestEvents);
+app.get('/latest', latestEvents);
 
 // Define API route to get a single event by ID
-app.get('/events/:id', eventByID);
+app.get('/single/:id', eventByID);
 
 // Fetch events owned by the current user
-app.get('/events/user', currentUserEvents);
+app.get('/user', authenticate, currentUserEvents);
 
 // Fetch events for a specific user
-app.get('/events/user/:userId', userEvents);
+app.get('/user/:userId', userEvents);
 
 // Fetch private events for a specific user
-app.get('/events/user/:userId/private', userPrivateEvents);
+app.get('/user/:userId/private', authenticate, userPrivateEvents);
 
 // Fetch public events for a specific user
-app.get('/events/user/:userId/public', userPublicEvents);
+app.get('/user/:userId/public', userPublicEvents);

@@ -109,3 +109,8 @@ app.get('/summary/:userId/', userSummary);
 
 // Fetch all users from the database (only username and _id)
 app.get('/all/', allUsers);
+
+// Test api health
+app.get('/health', (req, res) => {
+    res.sendStatus(200);
+  });

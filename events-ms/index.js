@@ -29,7 +29,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
-const port = 5050;
+const port = 5051;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
@@ -121,3 +121,8 @@ app.get('/user/:userId/private', authenticate, userPrivateEvents);
 
 // Fetch public events for a specific user
 app.get('/user/:userId/public', userPublicEvents);
+
+// Test api health
+app.get('/health', (req, res) => {
+    res.sendStatus(200);
+  });

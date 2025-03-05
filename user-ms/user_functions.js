@@ -81,8 +81,17 @@ const loginUser = async (req, res) => {
         };
         const token = generateToken(payload);
 
+        // Send token as cookie
+        res.cookie('authToken', token, {
+            httpOnly: true,
+            secure: false, // false for http
+            sameSite: 'none', // recommended for security
+            maxAge: 3600000, // 1 hour (matching token expiration)
+            path: '/', // path where token is valid
+          });
+
         // Authentication successful
-        return res.status(200).json({ message: 'Login successful', user: req.session.user });
+        return res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         console.error(`Login error: ${error}`); // Log the error
         res.status(500).json({ message: 'Login failed', error });
@@ -103,6 +112,17 @@ const verifySession = (req, res, next) => {
       req.user = decoded; // Store the decoded user info in req.user
       next();
     });
+  
+const logoutUser = (req, res) => {
+    res.clearCookie('authToken', { // Clear the cookie
+        httpOnly: true,
+        secure: false,
+        sameSite: 'none', 
+        maxAge: 3600000,
+        path: '/',
+    });
+  
+    return res.status(200).json({ message: 'Logout successful' });
   };
 
 const userDataByID = async (req, res) => {
@@ -184,6 +204,7 @@ module.exports = {
     registerUser,
     loginUser,
     verifySession,
+    logoutUser,
     userDataByID,
     userSummary,
     allUsers

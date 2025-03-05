@@ -4,6 +4,7 @@ const {
     registerUser, 
     loginUser, 
     verifySession,
+    logoutUser,
     userDataByID, 
     userSummary,  
     allUsers 
@@ -106,6 +107,8 @@ app.post('/login/', loginUser);
 app.get('/session/', verifySession, (req, res) => {
     res.status(200).json({ user: req.user });
 });
+// Logout endpoint
+app.post('/logout/', logoutUser);
 
 // Get user data by ID
 app.get('/data/:userId/', userDataByID);

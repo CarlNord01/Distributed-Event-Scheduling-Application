@@ -61,7 +61,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://9.223.106.132/api/logout', {
+      const response = await fetch('http://9.223.136.195/user/logout', {
         method: 'POST',
         credentials: 'include', // Ensure cookies are sent with the request
       });

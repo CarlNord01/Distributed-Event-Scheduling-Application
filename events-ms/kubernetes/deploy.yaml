@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-ms
+  template:
+    metadata:
+      labels:
+        app: events-ms
+    spec:
+      containers:
+      - name: events-ms
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/events-ms:$VERSION
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5051  # The port your events-ms listens on
+        env:
+          - name: SOME_ENV_VAR
+            value: "some-value"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-ms
+spec:
+  selector:
+    app: events-ms
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80         # Internal port for other pods to reach the service
+      targetPort: 5051 # Must match the containerPort above

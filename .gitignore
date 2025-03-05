@@ -1,5 +1,8 @@
 node_modules/
 
+info-log.txt
+*.env
+
 compiled/
 
 # Local .terraform directories

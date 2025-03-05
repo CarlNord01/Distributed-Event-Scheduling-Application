@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-ms
+  template:
+    metadata:
+      labels:
+        app: user-ms
+    spec:
+      containers:
+      - name: user-ms
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/user-ms:$VERSION
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5050  # The port your user-ms listens on
+        env:
+          - name: SOME_ENV_VAR
+            value: "some-value"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-ms
+spec:
+  selector:
+    app: user-ms
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80         # Internal port for other pods to reach the service
+      targetPort: 5050 # Must match the containerPort above

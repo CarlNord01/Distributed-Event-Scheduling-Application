@@ -30,7 +30,7 @@ function EventPage() {
         setEvent({ ...data, startDateTime, endDateTime });
 
         // Fetch the owner's username by their userId (from the `owner` field)
-        return fetch(`${IP_ADDRESS}/user/${data.owner}`);
+        return fetch(`${IP_ADDRESS}/user/data/${data.owner}`);
       })
       .then(response => {
         if (!response.ok) throw new Error('User not found');

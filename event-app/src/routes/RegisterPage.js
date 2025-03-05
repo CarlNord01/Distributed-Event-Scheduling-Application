@@ -14,6 +14,7 @@ const RegistrationPage = () => {
     const avatarStyle = { backgroundColor: '--clr-background-bright' };
     const btnStyle = { backgroundColor: '--clr-background-bright', margin: '12px 0' };
     const [loading, setLoading] = React.useState(false);
+    const IP_ADDRESS = 'http://9.223.136.195';
     axios.defaults.withCredentials = true;
 
     // Form state
@@ -109,7 +110,7 @@ const RegistrationPage = () => {
     
             try {
                 // Make POST request to the backend
-                const response = await axios.post('http://9.223.106.132/api/register', {
+                const response = await axios.post(`${IP_ADDRESS}/user/register`, {
                     email: form.email,
                     username: form.username,
                     password: form.password

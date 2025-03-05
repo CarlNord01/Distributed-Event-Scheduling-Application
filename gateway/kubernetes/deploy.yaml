@@ -17,20 +17,7 @@ spec:
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 5000  # Express listens on 5001
-        env:
-          - name: PORT
-            value: "5000"
-          - name: DB_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: my-db-credentials
-                key: username
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: my-db-credentials
-                key: password
+          - containerPort: 5000  # Express listens on 5000
           - name: SESSION_SECRET
             value: "your-production-secret"  # Consider moving this into a secret as well
         resources:

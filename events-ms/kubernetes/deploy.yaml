@@ -19,8 +19,18 @@ spec:
         ports:
         - containerPort: 5051  # The port your events-ms listens on
         env:
-          - name: SOME_ENV_VAR
-            value: "some-value"
+          - name: PORT
+            value: "5051"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: my-db-credentials
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-db-credentials
+                key: password
         resources:
           requests:
             cpu: 100m

@@ -3,6 +3,7 @@ const express = require('express');
 const { 
     registerUser, 
     loginUser, 
+    verifySession,
     userDataByID, 
     userSummary,  
     allUsers 
@@ -100,6 +101,11 @@ app.post('/register/', registerUser);
 
 // Login endpoint
 app.post('/login/', loginUser);
+
+// Validate session token endpoint
+app.post('/session/', verifySession, (req, res) => {
+    res.status(200).json({ user: req.user });
+});
 
 // Get user data by ID
 app.get('/data/:userId/', userDataByID);

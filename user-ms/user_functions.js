@@ -89,6 +89,22 @@ const loginUser = async (req, res) => {
     }
 }
 
+const verifySession = (req, res, next) => {
+    const token = req.cookies.authToken;
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+  
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+      }
+      req.user = decoded; // Store the decoded user info in req.user
+      next();
+    });
+  };
+
 const userDataByID = async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -167,6 +183,7 @@ const allUsers = async (req, res) => {
 module.exports = {
     registerUser,
     loginUser,
+    verifySession,
     userDataByID,
     userSummary,
     allUsers

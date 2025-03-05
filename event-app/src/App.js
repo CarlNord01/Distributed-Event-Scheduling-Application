@@ -70,8 +70,7 @@ function App() {
         localStorage.removeItem('user'); // or any other session-related data
         sessionStorage.clear();
   
-        // Optionally redirect to login or homepage
-        window.location.href = '/login'; // Or wherever you want to send them
+        window.location.href = '/login'; // Send user to login page
       } else {
         console.error('Failed to log out');
       }

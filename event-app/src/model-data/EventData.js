@@ -1,7 +1,7 @@
-
+const IP_ADDRESS = 'http://9.223.136.195';
 export const getLatestEvents = async () => {
     try {
-      const response = await fetch(`http://9.223.106.132/api/events/latest`, {
+      const response = await fetch(`${IP_ADDRESS}/events/latest`, {
         credentials: 'include'
       });
   

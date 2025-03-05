@@ -1,3 +1,4 @@
+const IP_ADDRESS = 'http://9.223.136.195';
 export const findSession = async () => {
     try {
         const response = await fetch(`http://9.223.106.132/api/session`, {
@@ -21,7 +22,7 @@ export const findSession = async () => {
 
 export const userLogin = async (username, password) => {
     try {
-        const response = await fetch(`http://9.223.106.132/api/login`, {
+        const response = await fetch(`${IP_ADDRESS}/user/login`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

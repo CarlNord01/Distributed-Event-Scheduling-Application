@@ -17,10 +17,10 @@ spec:
         image: $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 5001  # Express listens on 5001
+          - containerPort: 5000  # Express listens on 5001
         env:
           - name: PORT
-            value: "5001"
+            value: "5000"
           - name: DB_USERNAME
             valueFrom:
               secretKeyRef:

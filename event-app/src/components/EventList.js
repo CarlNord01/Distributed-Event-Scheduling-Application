@@ -36,6 +36,7 @@ function EventList() {
   const [showFriendsEvents, setShowFriendsEvents] = useState(false); // Toggle to show only friends' events
   const [eventVisibilityFilter, setEventVisibilityFilter] = useState('all'); // Filter for event visibility (public/private)
 
+  const IP_ADDRESS = 'http://9.223.136.195';
   useEffect(() => {
     // Fetch logged-in user's ID
     const fetchUserId = async () => {
@@ -65,7 +66,7 @@ function EventList() {
     const fetchPublicEvents = async () => {
       try {
         // fetch all public events
-        const publicEventsResponse = await fetch('http://9.223.106.132/api/events/public', {
+        const publicEventsResponse = await fetch(`${IP_ADDRESS}/events/public`, {
           credentials: 'include',
         });
         if (!publicEventsResponse.ok) {
@@ -107,7 +108,7 @@ function EventList() {
           fetchedFriends.map(async (request) => {
             try {
               const userResponse = await fetch(
-                `http://9.223.106.132/api/user/${request.id}/private-events`,
+                `${IP_ADDRESS}/events/user/${request.id}/private`,
                 { credentials: 'include' }
               );
               if (!userResponse.ok) {
@@ -124,7 +125,7 @@ function EventList() {
 
         // Fetch current user's private events
         const userEventsResponse = await fetch(
-          `http://9.223.106.132/api/user/${userId}/private-events`,
+          `${IP_ADDRESS}/events/user/${userId}/private`,
           { credentials: 'include' }
         );
         if (!userEventsResponse.ok) {

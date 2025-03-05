@@ -3,6 +3,7 @@ const express = require('express');
 const { 
     registerUser, 
     loginUser, 
+    logoutUser,
     userDataByID, 
     userSummary,  
     allUsers 
@@ -100,6 +101,9 @@ app.post('/register/', registerUser);
 
 // Login endpoint
 app.post('/login/', loginUser);
+
+// Logout endpoint
+app.post('/logout/', logoutUser);
 
 // Get user data by ID
 app.get('/data/:userId/', userDataByID);

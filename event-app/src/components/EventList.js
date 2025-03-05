@@ -41,7 +41,7 @@ function EventList() {
     // Fetch logged-in user's ID
     const fetchUserId = async () => {
         try {
-            const response = await fetch('http://9.223.106.132/api/session', {
+            const response = await fetch(`${IP_ADDRESS}/user/session`, {
                 credentials: 'include'
             });
 

@@ -22,7 +22,7 @@ export default function ProfileDrawer({ open, onClose, handleLogout }) {
   // Fetch the logged-in user's information when the component mounts
   useEffect(() => {
     axios
-      .get('http://9.223.106.132/api/session', { withCredentials: true })
+      .get(`${IP_ADDRESS}/user/session`, { withCredentials: true })
       .then((response) => {
         if (response.data.user) {
           setUserId(response.data.user.userId); // Set the userId state

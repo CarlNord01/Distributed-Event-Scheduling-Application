@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: gateway
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: gateway
   template:
     metadata:
       labels:
-        app: backend
+        app: gateway
     spec:
       containers:
-      - name: backend
-        image: $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
+      - name: gateway
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 5000  # Express listens on 5001
@@ -44,10 +44,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: gateway
 spec:
   selector:
-    app: backend
+    app: gateway
   type: LoadBalancer
   ports:
     - protocol: TCP

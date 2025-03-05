@@ -18,8 +18,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 5000  # Express listens on 5000
-          - name: SESSION_SECRET
-            value: "your-production-secret"  # Consider moving this into a secret as well
         resources:
           requests:
             cpu: 126m

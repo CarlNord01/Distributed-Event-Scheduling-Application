@@ -16,5 +16,9 @@
     "express": "^4.21.2",
     "http-proxy-middleware": "^3.0.3",
     "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }

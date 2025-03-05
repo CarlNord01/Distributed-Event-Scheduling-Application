@@ -41,9 +41,9 @@ function createDynamicProxy(targetIP) {
     });
 }
 
-app.use('/events', createDynamicProxy('10.0.156.226:5051'));          // events-ms
-app.use('/user', createDynamicProxy('10.0.100.149:5050'));            // user-ms
-app.use('/friends', createDynamicProxy('10.0.74.62:5052'));           // friends-ms
+app.use('/events', createDynamicProxy('10.0.156.226'));          // events-ms
+app.use('/user', createDynamicProxy('10.0.100.149'));            // user-ms
+app.use('/friends', createDynamicProxy('10.0.74.62'));           // friends-ms
 
 app.get('/health', (req, res) => {
   res.sendStatus(200);

@@ -16,6 +16,8 @@ import Drawer from './components/Drawer.js';
 import UsersPage from './routes/UsersPage';
 import TermsOfService from './routes/TermsOfService.js';
 
+const IP_ADDRESS = 'http://9.223.136.195';
+
 const darkTheme = createTheme({
   components: {
     MuiButtonGroup: {
@@ -81,7 +83,7 @@ function App() {
   
   const checkSession = async () => {
     try {
-        const response = await axios.get('http://9.223.106.132/api/session');
+        const response = await axios.get(`${IP_ADDRESS}/user/session`);
         if (response.data.user) {
             console.log('Active session found:', response.data.user);
         }

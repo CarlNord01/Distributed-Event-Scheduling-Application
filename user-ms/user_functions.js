@@ -111,7 +111,8 @@ const verifySession = (req, res, next) => {
       }
       req.user = decoded; // Store the decoded user info in req.user
       next();
-    });
+    })
+};
   
 const logoutUser = (req, res) => {
     res.clearCookie('authToken', { // Clear the cookie

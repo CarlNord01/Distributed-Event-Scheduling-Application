@@ -18,7 +18,7 @@ function EventPage() {
 
   useEffect(() => {
     // fetches event details using event_id
-    fetch(`${IP_ADDRESS}/event/${event_id}`)
+    fetch(`${IP_ADDRESS}/events/single/${event_id}`)
       .then(response => {
         if (!response.ok) throw new Error('Event not found');
         return response.json();

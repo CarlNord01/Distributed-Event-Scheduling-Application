@@ -6,8 +6,9 @@ function generateToken(payload) {
 }
 
 const registerUser = async (req, res) => {
+    const { email, username, password } = req.body;
+
     try {
-        const { email, username, password } = req.body;
 
         // Basic validation
         if (!email || !username || !password) {

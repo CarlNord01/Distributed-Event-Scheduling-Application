@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 
 function generateToken(payload) {
     return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Adjust expiration as needed

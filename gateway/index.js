@@ -41,6 +41,11 @@ function createDynamicProxy(targetIP) {
     });
 }
 
+app.use((req,res,next)=>{
+  console.log(req.path,req.method)
+  next()
+})
+
 app.use('/events', createDynamicProxy('10.0.156.226'));          // events-ms
 app.use('/user', createDynamicProxy('10.0.100.149'));            // user-ms
 app.use('/friends', createDynamicProxy('10.0.74.62'));           // friends-ms

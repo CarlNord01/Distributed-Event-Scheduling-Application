@@ -32,11 +32,12 @@ const port = 5050;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
-app.use(express.json())
+app.use(express.json());
 app.use((req,res,next)=>{
-    console.log(req.path,req.method)
-    next()
-})
+    console.log(req.path,req.method);
+    console.log('Raw body data:', req.body);
+    next();
+});
 
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
@@ -47,7 +48,7 @@ function verifyToken(token) {
     } catch (error) {
         return null; // Token verification failed
     }
-  }
+  };
   
   // Middleware for JWT verification
 function authenticate(req, res, next) {
@@ -66,7 +67,7 @@ function authenticate(req, res, next) {
     } else {
       res.sendStatus(401); // Unauthorized
     }
-}
+};
 
 // MongoDB setup
 const username = process.env.DB_USERNAME;
@@ -91,11 +92,6 @@ client.connect()
         logger.error(`Server startup failed! Error: ${err}`);
         process.exit(1);
     });
-
-app.use((req, res, next) => {
-    logger.info(`Received request for ${req.method} ${req.url}`);
-    next();
-});
 
 // Register new user
 app.post('/register/', registerUser);

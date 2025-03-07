@@ -58,7 +58,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const db = req.app.locals.db; // Access the database from app.locals
     const { username, password } = req.body;
-    console.log("User-MS req.body:", req.body); // ADD THIS LINE
+    console.log("User-MS req.body:", req.body);
     try {
         // Convert the username to lowercase before querying
         const normalizedUsername = username.toLowerCase();

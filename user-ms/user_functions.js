@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
     const { email, username, password } = req.body;
 
     try {
-
+        const db = req.app.locals.db; // Access the database from app.locals
         // Basic validation
         if (!email || !username || !password) {
             return res.status(400).json({ message: 'Email, username, and password are required.' });
@@ -56,6 +56,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
+        const db = req.app.locals.db; // Access the database from app.locals
         const { username, password } = req.body;
 
         // Convert the username to lowercase before querying
@@ -130,6 +131,7 @@ const logoutUser = (req, res) => {
 
 const userDataByID = async (req, res) => {
     try {
+        const db = req.app.locals.db; // Access the database from app.locals
         const { userId } = req.params;
         console.log('Received userId:', userId);
     
@@ -159,6 +161,7 @@ const userDataByID = async (req, res) => {
 
 const userSummary = async (req, res) => {
     try {
+        const db = req.app.locals.db; // Access the database from app.locals
         const userId = req.params.userId;
         console.log('Received userId:', userId);
 

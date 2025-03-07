@@ -7,7 +7,6 @@ require('dotenv').config(); // Load environment variables
 const app = express();
 
 // Middleware to parse request body
-app.use(express.json());
 app.use(cors({
     origin: `http://9.223.201.161`, // Frontend URL
     credentials: true

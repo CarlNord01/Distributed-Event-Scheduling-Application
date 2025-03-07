@@ -1,1 +1,0 @@
-We are having major problems with sending a body with api calls. Data is sent from frontend, but no data is received by gateway(empty req.body, it is not undefined, but it is empty).

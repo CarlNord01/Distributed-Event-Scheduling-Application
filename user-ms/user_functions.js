@@ -130,7 +130,7 @@ const logoutUser = (req, res) => {
 
 const userDataByID = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const { userId } = req.params;
         console.log('Received userId:', userId);
     
         if (!ObjectId.isValid(userId)) {

@@ -96,7 +96,7 @@ const loginUser = async (req, res) => {
           });
 
         // Authentication successful
-        return res.status(200).json({ message: 'Login successful' });
+        return res.status(200).json({ message: 'Login successful', user: payload });
     } catch (error) {
         console.error(`Login error: ${error}`); // Log the error
         res.status(500).json({ message: 'Login failed', error });

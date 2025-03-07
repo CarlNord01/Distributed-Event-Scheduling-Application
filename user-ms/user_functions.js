@@ -107,7 +107,7 @@ const verifySession = (req, res, next) => {
     const token = req.cookies.authToken;
   
     if (!token) {
-      return res.status(402).json({ message: 'Unauthorized: No token provided' });
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
   
     jwt.verify(token, JWT_SECRET, (err, decoded) => {

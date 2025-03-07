@@ -38,6 +38,7 @@ app.use((req,res,next)=>{
     console.log('Raw body data:', req.body);
     next();
 });
+app.use(cookieParser());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 

@@ -18,6 +18,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha';
 
 // Proxy Middleware with JWT verification
 function createDynamicProxy(targetIP) {
+    console.log('request body: ', JSON.stringify(req.body));
     return createProxyMiddleware({
         target: `http://${targetIP}`,
         changeOrigin: true,

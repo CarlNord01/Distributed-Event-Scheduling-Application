@@ -43,7 +43,7 @@ function createDynamicProxy(targetIP) {
 
 app.use((req,res,next)=>{
   console.log(req.path,req.method);
-  console.log('Request body:', JSON.stringify(req.body));
+  console.log('Request body (raw):', req.body);
   next();
 });
 

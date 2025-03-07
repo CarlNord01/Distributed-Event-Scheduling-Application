@@ -32,7 +32,7 @@ const port = 5050;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
-app.use(express.json());
+app.use(express.json()); // VERY HUNGRY EATS DATA!!!
 app.use((req,res,next)=>{
     console.log(req.path,req.method);
     console.log('Raw body data:', req.body);

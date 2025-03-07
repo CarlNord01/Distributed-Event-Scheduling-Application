@@ -58,7 +58,6 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const db = req.app.locals.db; // Access the database from app.locals
     const { username, password } = req.body;
-    console.log("User-MS req.body:", req.body);
     try {
         // Convert the username to lowercase before querying
         const normalizedUsername = username.toLowerCase();
@@ -84,6 +83,8 @@ const loginUser = async (req, res) => {
             email: user.email 
         };
         const token = generateToken(payload);
+
+        console.log(token);
 
         // Send token as cookie
         res.cookie('authToken', token, {

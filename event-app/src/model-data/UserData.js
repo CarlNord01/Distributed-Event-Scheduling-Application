@@ -22,7 +22,7 @@ export const findSession = async () => {
 
 export const userLogin = async (username, password) => {
     try {
-        console.log(JSON.stringify);
+        console.log(JSON.stringify( { username, password }));
         const response = await fetch(`${IP_ADDRESS}/user/login`, {
             method: 'POST',
             credentials: 'include',

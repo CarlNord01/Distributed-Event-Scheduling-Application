@@ -18,7 +18,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha';
 
 // Proxy Middleware with JWT verification
 function createDynamicProxy(targetIP) {
-    console.log('request body: ', JSON.stringify(req.body));
     return createProxyMiddleware({
         target: `http://${targetIP}`,
         changeOrigin: true,
@@ -43,9 +42,10 @@ function createDynamicProxy(targetIP) {
 }
 
 app.use((req,res,next)=>{
-  console.log(req.path,req.method)
-  next()
-})
+  console.log(req.path,req.method);
+  console.log('Request body:', JSON.stringify(req.body));
+  next();
+});
 
 app.use('/events', createDynamicProxy('10.0.156.226'));          // events-ms
 app.use('/user', createDynamicProxy('10.0.100.149'));            // user-ms

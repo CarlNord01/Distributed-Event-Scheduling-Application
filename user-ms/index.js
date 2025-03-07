@@ -12,6 +12,7 @@ const {
 const { MongoClient } = require('mongodb');
 const winston = require('winston');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 require('dotenv').config(); // Load environment variables
 
 // Logger setup

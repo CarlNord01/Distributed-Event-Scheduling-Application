@@ -22,15 +22,12 @@ function createDynamicProxy(targetIP) {
         target: `http://${targetIP}`,
         changeOrigin: true,
         onProxyReq: (proxyReq, req, res) => {
-            console.log('WE ARE BEFORE!');
-            if (req.body) {
-                console.log('WE ARE HERE!');
+            /*if (req.body) {
                 const bodyData = JSON.stringify(req.body);
-                console.log(bodyData);
                 proxyReq.setHeader('Content-Type', 'application/json');
                 proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
                 proxyReq.write(bodyData);
-            }
+            }*/
 
             // Forward JWT in Authorization header
             if (req.headers.authorization) {

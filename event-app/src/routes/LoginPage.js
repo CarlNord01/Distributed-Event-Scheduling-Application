@@ -86,9 +86,6 @@ const LoginPage = ({ onLogin }) => { // Receive onLogin prop
                 // Handle successful login
                 console.log(response.message);
 
-                // Save the user to localStorage
-                localStorage.setItem('user', JSON.stringify(response.user));
-
                 // Update user state in App
                 onLogin(response.user); // Call onLogin to update user in App
 

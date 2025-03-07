@@ -3,6 +3,7 @@ const express = require('express');
 const { 
     registerUser, 
     loginUser, 
+    verifySession,
     logoutUser,
     userDataByID, 
     userSummary,  
@@ -11,6 +12,7 @@ const {
 const { MongoClient } = require('mongodb');
 const winston = require('winston');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 require('dotenv').config(); // Load environment variables
 
 // Logger setup
@@ -31,11 +33,13 @@ const port = 5050;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
-app.use(express.json())
+app.use(express.json()); // VERY HUNGRY EATS DATA!!!
 app.use((req,res,next)=>{
-    console.log(req.path,req.method)
-    next()
-})
+    console.log(req.path,req.method);
+    console.log('Raw body data:', req.body);
+    next();
+});
+app.use(cookieParser());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
@@ -46,7 +50,7 @@ function verifyToken(token) {
     } catch (error) {
         return null; // Token verification failed
     }
-  }
+  };
   
   // Middleware for JWT verification
 function authenticate(req, res, next) {
@@ -65,7 +69,7 @@ function authenticate(req, res, next) {
     } else {
       res.sendStatus(401); // Unauthorized
     }
-}
+};
 
 // MongoDB setup
 const username = process.env.DB_USERNAME;
@@ -91,17 +95,16 @@ client.connect()
         process.exit(1);
     });
 
-app.use((req, res, next) => {
-    logger.info(`Received request for ${req.method} ${req.url}`);
-    next();
-});
-
 // Register new user
 app.post('/register/', registerUser);
 
 // Login endpoint
 app.post('/login/', loginUser);
 
+// Validate session token endpoint
+app.get('/session/', verifySession, (req, res) => {
+    res.status(200).json({ user: req.user });
+});
 // Logout endpoint
 app.post('/logout/', logoutUser);
 

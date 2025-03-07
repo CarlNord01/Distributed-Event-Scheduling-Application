@@ -1,14 +1,17 @@
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
+const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 
 function generateToken(payload) {
     return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Adjust expiration as needed
 }
 
 const registerUser = async (req, res) => {
-    try {
-        const { email, username, password } = req.body;
+    const { email, username, password } = req.body;
 
+    try {
+        const db = req.app.locals.db; // Access the database from app.locals
         // Basic validation
         if (!email || !username || !password) {
             return res.status(400).json({ message: 'Email, username, and password are required.' });
@@ -53,9 +56,9 @@ const registerUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
+    const { username, password } = req.body;
     try {
-        const { username, password } = req.body;
-
         // Convert the username to lowercase before querying
         const normalizedUsername = username.toLowerCase();
 
@@ -81,6 +84,8 @@ const loginUser = async (req, res) => {
         };
         const token = generateToken(payload);
 
+        console.log(token);
+
         // Send token as cookie
         res.cookie('authToken', token, {
             httpOnly: true,
@@ -91,13 +96,29 @@ const loginUser = async (req, res) => {
           });
 
         // Authentication successful
-        return res.status(200).json({ message: 'Login successful' });
+        return res.status(200).json({ message: 'Login successful', user: payload });
     } catch (error) {
         console.error(`Login error: ${error}`); // Log the error
         res.status(500).json({ message: 'Login failed', error });
     }
 }
 
+const verifySession = (req, res, next) => {
+    const token = req.cookies.authToken;
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+  
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+      }
+      req.user = decoded; // Store the decoded user info in req.user
+      next();
+    })
+};
+  
 const logoutUser = (req, res) => {
     res.clearCookie('authToken', { // Clear the cookie
         httpOnly: true,
@@ -112,7 +133,8 @@ const logoutUser = (req, res) => {
 
 const userDataByID = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const db = req.app.locals.db; // Access the database from app.locals
+        const { userId } = req.params;
         console.log('Received userId:', userId);
     
         if (!ObjectId.isValid(userId)) {
@@ -141,6 +163,7 @@ const userDataByID = async (req, res) => {
 
 const userSummary = async (req, res) => {
     try {
+        const db = req.app.locals.db; // Access the database from app.locals
         const userId = req.params.userId;
         console.log('Received userId:', userId);
 
@@ -177,7 +200,6 @@ const allUsers = async (req, res) => {
             .toArray();
         
         res.status(200).json(users);
-        console.log(`Found username: ${users.username}. User id: ${users._id}`);
     } catch (err) {
         console.error('Failed to retrieve users:', err);
         res.status(500).json({ message: 'Failed to retrieve users', error: err.message });
@@ -188,6 +210,7 @@ const allUsers = async (req, res) => {
 module.exports = {
     registerUser,
     loginUser,
+    verifySession,
     logoutUser,
     userDataByID,
     userSummary,

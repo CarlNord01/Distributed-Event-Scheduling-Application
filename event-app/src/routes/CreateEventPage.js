@@ -102,6 +102,8 @@ class CreateEventPage extends React.Component {
       return;
     }
   
+    const IP_ADDRESS = 'http://9.223.136.195';
+    
     const { singleDay, fullDay, privateEvent } = this.state;
   
     const eventData = {
@@ -117,7 +119,7 @@ class CreateEventPage extends React.Component {
     };
   
     // Send a POST request to create a new event
-    axios.post('http://9.223.106.132/api/create-new-event', eventData, { withCredentials: true })
+    axios.post(`${IP_ADDRESS}/event/create-new`, eventData, { withCredentials: true })
       .then((response) => {
         // Redirect to the event details page after successful creation
         this.props.navigate(`/event/${response.data.eventId}`);

@@ -192,7 +192,7 @@ const userSummary = async (req, res) => {
 
 const allUsers = async (req, res) => {
     try {
-        //const db = req.app.locals.db; // Access the database from app.locals
+        const db = req.app.locals.db; // Access the database from app.locals
         const users = await db.collection('users')
             .find({}, { projection: { username: 1, _id: 1 } }) // Retrieve only username and _id fields
             .toArray();

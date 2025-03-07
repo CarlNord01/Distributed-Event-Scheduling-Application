@@ -23,7 +23,9 @@ function createDynamicProxy(targetIP) {
         changeOrigin: true,
         onProxyReq: (proxyReq, req, res) => {
             if (req.body) {
+                console.log(req.body);
                 const bodyData = JSON.stringify(req.body);
+                console.log(bodyData);
                 proxyReq.setHeader('Content-Type', 'application/json');
                 proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
                 proxyReq.write(bodyData);

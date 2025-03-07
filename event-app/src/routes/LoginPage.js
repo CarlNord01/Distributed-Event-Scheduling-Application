@@ -81,7 +81,6 @@ const LoginPage = ({ onLogin }) => { // Receive onLogin prop
         if (validate()) {
             try {
                 // Make POST request to backend
-                console.log(form.username, form.password);
                 const response = await userLogin(form.username, form.password);
 
                 // Handle successful login

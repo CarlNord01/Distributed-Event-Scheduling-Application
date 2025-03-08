@@ -38,6 +38,26 @@ spec:
           limits:
             cpu: 200m
             memory: 256Mi
+        startupProbe:
+          tcpSocket:
+            port: 5051
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5051
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5051
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -49,5 +69,5 @@ spec:
   type: ClusterIP
   ports:
     - protocol: TCP
-      port: 80         # Internal port for other pods to reach the service
+      port: 80      # Internal port for other pods to reach the service
       targetPort: 5051 # Must match the containerPort above

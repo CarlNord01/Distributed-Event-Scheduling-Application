@@ -1,8 +1,10 @@
 import axios from 'axios';
+const IP_ADDRESS = 'http://9.223.136.195';
+
 export const sendFriendRequest = async (targetUserId) => {
     try {
       // Make POST request to backend
-      axios.post(`http://9.223.106.132/api/friend-request/${targetUserId}`, { withCredentials: true })
+      axios.post(`${IP_ADDRESS}/friends/request/${targetUserId}`, { withCredentials: true })
         .then((response) => {
           // Update UI to notify the user of success! 
         })
@@ -22,7 +24,7 @@ export const sendFriendRequest = async (targetUserId) => {
   };
   export const killFriend = async (victimId) => {
     try {
-        const response = await fetch(`http://9.223.106.132/api/friend/remove/${victimId}`, {
+        const response = await fetch(`${IP_ADDRESS}/friends/remove/${victimId}`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -37,7 +39,7 @@ export const sendFriendRequest = async (targetUserId) => {
 
   export const getUserFriends = async () => {
     try {
-      const response = await fetch(`http://9.223.106.132/api/friends`, {
+      const response = await fetch(`${IP_ADDRESS}/friends/list`, {
         credentials: 'include'
       });
   
@@ -63,7 +65,7 @@ export const sendFriendRequest = async (targetUserId) => {
 
   export const checkFriend = async (userId) => {
     try {
-      const response = await fetch(`http://9.223.106.132/api/friends/checkfriend/${userId}`, {
+      const response = await fetch(`${IP_ADDRESS}/friends/checkfriend/${userId}`, {
         credentials: 'include'
       });
   
@@ -88,7 +90,7 @@ export const sendFriendRequest = async (targetUserId) => {
 
   export const checkPendingRequest = async (userId) => {
     try {
-      const response = await fetch(`http://9.223.106.132/api/friends/checkfriend/request/${userId}`, {
+      const response = await fetch(`${IP_ADDRESS}/friends/checkfriend/request/${userId}`, {
         credentials: 'include'
       });
   

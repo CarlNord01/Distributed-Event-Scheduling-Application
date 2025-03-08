@@ -6,12 +6,13 @@ function RequestList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
+    const IP_ADDRESS = 'http://9.223.136.195';
 
     // Fetch current user session to get userId
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const response = await fetch('http://9.223.106.132/api/session', {
+                const response = await fetch(`${IP_ADDRESS}/user/session`, {
                     credentials: 'include'
                 });
 
@@ -37,7 +38,7 @@ function RequestList() {
 
         const fetchFriendRequests = async () => {
             try {
-                const response = await fetch(`http://9.223.106.132/api/friend-requests/${userId}`, {
+                const response = await fetch(`${IP_ADDRESS}/friends/requests/${userId}`, {
                     credentials: 'include'
                 });
 
@@ -51,7 +52,7 @@ function RequestList() {
                 // Fetch usernames for each request
                 const requestsWithUsernames = await Promise.all(requests.map(async (request) => {
                   try {
-                      const userResponse = await fetch(`http://9.223.106.132/api/user-summary/${request.sender}`, {
+                      const userResponse = await fetch(`${IP_ADDRESS}/user/summary/${request.sender}`, {
                           credentials: 'include'
                       });
               

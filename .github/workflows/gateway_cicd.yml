@@ -1,23 +1,23 @@
-name: Deploy backend
+name: Deploy gateway
 
 on:
 
-  # Deploys the microservice on push to subfolder backend on the main branch of this code repository.
+  # Deploys the microservice on push to subfolder gateway on the main branch of this code repository.
   push:
     branches:
       - main
-   # paths:
-   #   - 'backend/**' # Only trigger on push to backend subfolder.
+    paths:
+      - 'gateway/**' # Only trigger on push to gateway subfolder.
   
   # Allows workflow to be invoked manually through the GitHub Actions user interface.
   workflow_dispatch:
 
 jobs:
-  backend:
+  gateway:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'backend' # Sets default path for "run" commands to the backend subfolder.
+        working-directory: 'gateway' # Sets default path for "run" commands to the gateway subfolder.
     
     # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
     env:
@@ -36,18 +36,18 @@ jobs:
         with:
           node-version: 19.9.0
           cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json' # Path to package-lock.json in backend subfolder.
+          cache-dependency-path: 'gateway/package-lock.json' # Path to package-lock.json in gateway subfolder.
       
 
       # Builds the Docker image.
       - name: Build
-        run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION --file ./Dockerfile .
+        run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION --file ./Dockerfile .
 
       # Publishes the Docker image to the Azure Container Registry.
       - name: Publish
         run: |
           echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/backend:$VERSION
+          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION
 
       # Installs Kubectl and connects it to the Azure Kubernetes Service (AKS) cluster.
       # https://github.com/marketplace/actions/kubernetes-cli-kubectl

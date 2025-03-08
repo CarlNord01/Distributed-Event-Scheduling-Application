@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: friends-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: friends-ms
+  template:
+    metadata:
+      labels:
+        app: friends-ms
+    spec:
+      containers:
+      - name: friends-ms
+        image: $CONTAINER_REGISTRY_LOGIN_SERVER/friends-ms:$VERSION
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5052  # The port your friends-ms listens on
+        env:
+          - name: PORT
+            value: "5052"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: my-db-credentials
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-db-credentials
+                key: password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: friends-ms
+spec:
+  selector:
+    app: friends-ms
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80         # Internal port for other pods to reach the service
+      targetPort: 5052 # Must match the containerPort above

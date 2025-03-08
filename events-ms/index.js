@@ -29,7 +29,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
-const port = 5050;
+const port = 5051;
 const { ObjectId } = require('mongodb');
 
 // MiddleWare
@@ -83,9 +83,14 @@ client.connect()
         app.locals.db = db;
         logger.info('Connected successfully to MongoDB');
 
-        app.listen(port, () => {
+        const server = app.listen(port, () => {
             console.log(`Server started on port: ${port}`);
             logger.info(`Server started on port: ${port}`);
+        });
+
+        server.on('error', (err) => {
+            logger.error(`Server startup failed! Error: ${err}`);
+            process.exit(1);
         });
     })
     .catch(err => {
@@ -93,9 +98,20 @@ client.connect()
         process.exit(1);
     });
 
-app.use((req, res, next) => {
-    logger.info(`Received request for ${req.method} ${req.url}`);
-    next();
+// Health check endpoint
+app.get('/health', async (req, res) => {
+    if (client.topology && client.topology.isConnected()) {
+        try {
+            // Optionally, you can perform a simple ping to the database
+            await db.command({ ping: 1 });
+            res.status(200).json({ status: 'ok', database: 'connected' });
+        } catch (dbError) {
+            logger.error(`Database ping failed: ${dbError}`);
+            res.status(500).json({ status: 'error', database: 'ping failed' });
+        }
+    } else {
+        res.status(500).json({ status: 'error', database: 'not connected' });
+    }
 });
 
 // Create a new event
@@ -121,3 +137,8 @@ app.get('/user/:userId/private', authenticate, userPrivateEvents);
 
 // Fetch public events for a specific user
 app.get('/user/:userId/public', userPublicEvents);
+
+// Test api health
+app.get('/health', (req, res) => {
+    res.sendStatus(200);
+  });

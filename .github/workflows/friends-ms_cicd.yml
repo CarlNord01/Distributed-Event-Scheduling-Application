@@ -1,23 +1,23 @@
-name: Deploy event-app
+name: Deploy friends-ms
 
 on:
 
-  # Deploys the microservice on push to subfolder event-app on the main branch of this code repository.
+  # Deploys the microservice on push to subfolder friends-ms on the main branch of this code repository.
   push:
     branches:
       - main
     paths:
-      - 'event-app/**' # Only trigger on push to event-app subfolder.
+      - 'friends-ms/**' # Only trigger on push to friends-ms subfolder.
   
   # Allows workflow to be invoked manually through the GitHub Actions user interface.
   workflow_dispatch:
 
 jobs:
-  event-app:
+  friends-ms:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'event-app' # Sets default path for "run" commands to the event-app subfolder.
+        working-directory: 'friends-ms' # Sets default path for "run" commands to the friends-ms subfolder.
     
     # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
     env:
@@ -36,18 +36,18 @@ jobs:
         with:
           node-version: 19.9.0
           cache: 'npm'
-          cache-dependency-path: 'event-app/package-lock.json' # Path to package-lock.json in event-app subfolder.
+          cache-dependency-path: 'friends-ms/package-lock.json' # Path to package-lock.json in friends-ms subfolder.
       
 
       # Builds the Docker image.
       - name: Build
-        run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/event-app:$VERSION --file ./Dockerfile .
+        run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/friends-ms:$VERSION --file ./Dockerfile .
 
       # Publishes the Docker image to the Azure Container Registry.
       - name: Publish
         run: |
           echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/event-app:$VERSION
+          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/friends-ms:$VERSION
 
       # Installs Kubectl and connects it to the Azure Kubernetes Service (AKS) cluster.
       # https://github.com/marketplace/actions/kubernetes-cli-kubectl

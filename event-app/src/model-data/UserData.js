@@ -1,24 +1,28 @@
 import axios from 'axios';
 const IP_ADDRESS = 'http://9.223.136.195';
+
 export const findSession = async () => {
-    try {
-        const response = await fetch(`${IP_ADDRESS}/user/session`, {
-            method: 'GET',
-            credentials: 'include',
-        });
+  try {
+      const cookies = document.cookie.split(';');
+      let authToken = null;
+      for (let cookie of cookies) {
+          const parts = cookie.split('=');
+          if (parts[0].trim() === 'authToken') {
+              authToken = parts[1];
+              break;
+          }
+      }
 
-        if (response.status === 200) {
-            /* Session found */
-            const data = await response.json();
-            return data;
-        }
-        else {
-          throw new Error(`Session not found: ${response.status}`);
-        }
+      const response = await axios.get(`${IP_ADDRESS}/user/session`, {
+          headers: {
+              Authorization: `Bearer ${authToken}`
+          }
+      });
 
-    } catch (error) {
-        console.error(error);
-    }
+      console.log("Session data:", response.data);
+  } catch (error) {
+      console.error("Error fetching session:", error);
+  }
 };
 
 export const userLogin = async (username, password) => {

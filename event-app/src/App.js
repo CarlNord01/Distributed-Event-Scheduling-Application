@@ -51,7 +51,6 @@ function App() {
   // Handle avatar click to open the drawer
   const handleAvatarClick = () => {
     setDrawerOpen(true);
-    checkSession();
   };
 
   // Handle drawer close
@@ -80,17 +79,6 @@ function App() {
       console.error('Error during logout:', error);
     }
   };
-  
-  const checkSession = async () => {
-    try {
-        const response = await axios.get(`${IP_ADDRESS}/user/session`);
-        if (response.data.user) {
-            console.log('Active session found:', response.data.user);
-        }
-    } catch (error) {
-        console.log('No active session');
-    }
-};
 
   return (
     <ThemeProvider theme={darkTheme}> {/* Sets the theme of all MUI components to dark*/}

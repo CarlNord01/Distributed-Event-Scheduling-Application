@@ -50,23 +50,25 @@ function verifyToken(token) {
   }
   
   // Middleware for JWT verification
-function authenticate(req, res, next) {
+  const verifySession = (req, res, next) => {
     const authHeader = req.headers.authorization;
   
     if (authHeader) {
-      const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
-      const decoded = verifyToken(token);
-  
-      if (decoded) {
-        req.user = decoded; // Attach user info to request
-        next();
-      } else {
-        res.sendStatus(403); // Forbidden
-      }
+        const token = authHeader.split(' ')[1]; // Extract token from 'Bearer <token>'
+        console.log('Token value:', token);
+    
+        jwt.verify(token, JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+
+            req.user = user; // Attach user information to the request
+            next();
+        });
     } else {
-      res.sendStatus(401); // Unauthorized
+        res.sendStatus(401); // Unauthorized
     }
-}
+};
 
 // MongoDB setup
 const username = process.env.DB_USERNAME;
@@ -98,28 +100,28 @@ app.use((req, res, next) => {
 });
 
 // Send friend request
-app.post('/request/:userId/', authenticate, sendRequest);
+app.post('/request/:userId/', verifyToken, sendRequest);
 
 // Get Friend Requests
-app.get('/list-requests/:userId/', authenticate, listRequests);
+app.get('/list-requests/:userId/', verifyToken, listRequests);
 
 // Accept Friend Request
-app.post('/request/accept/:senderId/', authenticate, acceptRequest);
+app.post('/request/accept/:senderId/', verifyToken, acceptRequest);
 
 // Decline Friend Request
-app.post('/request/decline/:senderId/', authenticate, declineRequest);
+app.post('/request/decline/:senderId/', verifyToken, declineRequest);
 
 // Get Friends List
-app.get('/list/', authenticate, listFriends);
+app.get('/list/', verifyToken, listFriends);
 
 // Check friendness status
-app.get('/checkfriend/:userId2/', authenticate, checkFriendness);
+app.get('/checkfriend/:userId2/', verifyToken, checkFriendness);
 
 // Check pending friend request
-app.get('/checkfriend/request/:userId2/', authenticate, checkFriendRequestStatus);
+app.get('/checkfriend/request/:userId2/', verifyToken, checkFriendRequestStatus);
 
 // Remove friend
-app.post('/remove/:victim/', authenticate, removeFriend);
+app.post('/remove/:victim/', verifyToken, removeFriend);
 
 // Test api health
 app.get('/health/', async (req, res) => {

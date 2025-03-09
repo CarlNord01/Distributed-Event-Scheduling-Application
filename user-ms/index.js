@@ -41,34 +41,6 @@ app.use((req,res,next)=>{
 
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
-// Function to verify JWT
-function verifyToken(token) {
-    try {
-        return jwt.verify(token, JWT_SECRET);
-    } catch (error) {
-        return null; // Token verification failed
-    }
-  };
-  
-  // Middleware for JWT verification
-function authenticate(req, res, next) {
-    const authHeader = req.headers.authorization;
-  
-    if (authHeader) {
-      const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
-      const decoded = verifyToken(token);
-  
-      if (decoded) {
-        req.user = decoded; // Attach user info to request
-        next();
-      } else {
-        res.sendStatus(403); // Forbidden
-      }
-    } else {
-      res.sendStatus(401); // Unauthorized
-    }
-};
-
 // MongoDB setup
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;

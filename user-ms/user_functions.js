@@ -104,19 +104,22 @@ const loginUser = async (req, res) => {
 }
 
 const verifySession = (req, res, next) => {
-    const token = req.cookies.authToken;
+    const authHeader = req.headers.authorization;
   
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    if (authHeader) {
+        const token = authHeader.split(' ')[1]; // Extract token from 'Bearer <token>'
+    
+        jwt.verify(token, JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            
+            req.user = user; // Attach user information to the request
+            next();
+        });
+    } else {
+        res.sendStatus(401); // Unauthorized
     }
-  
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
-      }
-      req.user = decoded; // Store the decoded user info in req.user
-      next();
-    })
 };
   
 const logoutUser = (req, res) => {

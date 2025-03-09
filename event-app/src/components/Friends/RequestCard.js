@@ -7,12 +7,13 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { Avatar, Button, Stack } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import stringToColor from '../StringToColor.js';
+const IP_ADDRESS = 'http://9.223.136.195';
 
 function RequestCard({ name, id, onAccept, onDecline }) {
 
     const handleAccept = async () => {
         try {
-            const response = await fetch(`http://9.223.106.132/api/friend-request/accept/${id}`, {
+            const response = await fetch(`${IP_ADDRESS}/friends/request/accept/${id}`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -29,7 +30,7 @@ function RequestCard({ name, id, onAccept, onDecline }) {
 
     const handleDecline = async () => {
         try {
-            const response = await fetch(`http://9.223.106.132/api/friend-request/decline/${id}`, {
+            const response = await fetch(`${IP_ADDRESS}/friends/request/decline/${id}`, {
                 method: 'POST',
                 credentials: 'include',
             });

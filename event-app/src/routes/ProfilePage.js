@@ -15,6 +15,7 @@ function ProfilePage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const IP_ADDRESS = 'http://9.223.136.195';
 
   // Check local storage for user information on component mount
   useEffect(() => {
@@ -28,7 +29,7 @@ function ProfilePage() {
     if (!userId || !session) return;  // Ensure both userId and session are available
 
     // Fetch user data
-    axios.get(`http://9.223.106.132/api/user/${userId}`)
+    axios.get(`${IP_ADDRESS}/user/data/${userId}`)
       .then(response => {
         setUser(response.data.user);
       })
@@ -46,7 +47,7 @@ function ProfilePage() {
         const isOwner = session && session.userId === userId; // Check if viewing own profile
         if (isOwner) {
           // If viewing own profile, fetch all events
-          const eventsResponse = await axios.get(`http://9.223.106.132/api/user/${userId}/events`);
+          const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/${userId}`);
           setEvents(eventsResponse.data);
         } else {
           // Fetch friend status
@@ -55,11 +56,11 @@ function ProfilePage() {
 
           if (friendStatus) {
             // If they are friends, fetch all events (public and private)
-            const eventsResponse = await axios.get(`http://9.223.106.132/api/user/${userId}/events`);
+            const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/${userId}`);
             setEvents(eventsResponse.data);
           } else {
             // If not friends, fetch only public events
-            const eventsResponse = await axios.get(`http://9.223.106.132/api/user/${userId}/public-events`);
+            const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/${userId}/public`);
             setEvents(eventsResponse.data);
           }
         }

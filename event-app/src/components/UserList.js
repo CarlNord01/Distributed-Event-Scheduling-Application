@@ -11,11 +11,12 @@ function UserList() {
     const [user, setUser] = useState([]);
     const [tempFilteredUser, setTempFilteredUser] = useState([]); // Temporary state to store the unfiltered user list
 
+    const IP_ADDRESS = 'http://9.223.136.195';
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // fatches all users from the database (only _id and usernames)
-                const response = await fetch('http://9.223.106.132/api/users', { credentials: 'include' });
+                const response = await fetch(`${IP_ADDRESS}/user/all`, { credentials: 'include' });
                 const data = await response.json();
                 setUser(data); // Stores the full list of users
                 setTempFilteredUser(data); // Initializes the filtered list with the unfiltered user data

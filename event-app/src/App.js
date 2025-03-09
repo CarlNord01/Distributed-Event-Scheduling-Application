@@ -16,6 +16,8 @@ import Drawer from './components/Drawer.js';
 import UsersPage from './routes/UsersPage';
 import TermsOfService from './routes/TermsOfService.js';
 
+const IP_ADDRESS = 'http://9.223.136.195';
+
 const darkTheme = createTheme({
   components: {
     MuiButtonGroup: {
@@ -59,7 +61,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://9.223.106.132/api/logout', {
+      const response = await fetch('http://9.223.136.195/user/logout', {
         method: 'POST',
         credentials: 'include', // Ensure cookies are sent with the request
       });
@@ -70,8 +72,7 @@ function App() {
         localStorage.removeItem('user'); // or any other session-related data
         sessionStorage.clear();
   
-        // Optionally redirect to login or homepage
-        window.location.href = '/login'; // Or wherever you want to send them
+        window.location.href = '/login'; // Send user to login page
       } else {
         console.error('Failed to log out');
       }
@@ -82,7 +83,7 @@ function App() {
   
   const checkSession = async () => {
     try {
-        const response = await axios.get('http://9.223.106.132/api/session');
+        const response = await axios.get(`${IP_ADDRESS}/user/session`);
         if (response.data.user) {
             console.log('Active session found:', response.data.user);
         }

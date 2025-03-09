@@ -108,12 +108,13 @@ const verifySession = (req, res, next) => {
   
     if (authHeader) {
         const token = authHeader.split(' ')[1]; // Extract token from 'Bearer <token>'
+        console.log('Token value:', token);
     
         jwt.verify(token, JWT_SECRET, (err, user) => {
             if (err) {
                 return res.sendStatus(403); // Forbidden
             }
-            
+
             req.user = user; // Attach user information to the request
             next();
         });

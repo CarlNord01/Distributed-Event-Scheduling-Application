@@ -18,11 +18,12 @@ import Diversity1Icon from '@mui/icons-material/Diversity1';
 export default function ProfileDrawer({ open, onClose, handleLogout }) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null); // State to store userId
+  const IP_ADDRESS = 'http://9.223.136.195';
 
   // Fetch the logged-in user's information when the component mounts
   useEffect(() => {
     axios
-      .get('http://9.223.106.132/api/session', { withCredentials: true })
+      .get(`${IP_ADDRESS}/user/session`, { withCredentials: true })
       .then((response) => {
         if (response.data.user) {
           setUserId(response.data.user.userId); // Set the userId state

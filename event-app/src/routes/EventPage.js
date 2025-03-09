@@ -14,9 +14,11 @@ function EventPage() {
   const [owner, setOwner] = useState(null); // For storing the owner's username
   const { event_id } = useParams();
 
+  const IP_ADDRESS = 'http://9.223.136.195';
+
   useEffect(() => {
     // fetches event details using event_id
-    fetch(`http://9.223.106.132/api/event/${event_id}`)
+    fetch(`${IP_ADDRESS}/events/single/${event_id}`)
       .then(response => {
         if (!response.ok) throw new Error('Event not found');
         return response.json();
@@ -28,7 +30,7 @@ function EventPage() {
         setEvent({ ...data, startDateTime, endDateTime });
 
         // Fetch the owner's username by their userId (from the `owner` field)
-        return fetch(`http://9.223.106.132/api/user/${data.owner}`);
+        return fetch(`${IP_ADDRESS}/user/data/${data.owner}`);
       })
       .then(response => {
         if (!response.ok) throw new Error('User not found');

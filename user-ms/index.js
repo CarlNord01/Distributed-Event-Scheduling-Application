@@ -71,7 +71,7 @@ app.post('/register/', registerUser);
 app.post('/login/', loginUser);
 
 // Validate session token endpoint
-app.get('/session/', verifySession, (req, res) => {
+app.get('/session/:authToken', verifySession, (req, res) => {
     res.status(200).json({ user: req.user });
 });
 // Logout endpoint

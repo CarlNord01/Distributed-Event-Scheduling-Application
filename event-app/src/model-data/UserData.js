@@ -4,7 +4,7 @@ const IP_ADDRESS = 'http://9.223.136.195';
 export const findSession = async () => {
   try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.get(`${IP_ADDRESS}/user/session`, {token},{
+      const response = await axios.get(`${IP_ADDRESS}/user/session/${token}`,{
           withCredentials: true
       });
 

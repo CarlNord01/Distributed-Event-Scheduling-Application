@@ -86,15 +86,6 @@ const loginUser = async (req, res) => {
 
         console.log(token);
 
-        // Send token as cookie
-        res.cookie('authToken', token, {
-            httpOnly: false,
-            secure: false, // false for http
-            sameSite: 'none', // recommended for security
-            maxAge: 3600000, // 1 hour (matching token expiration)
-            path: '/', // path where token is valid
-          });
-
         // Authentication successful
         return res.status(200).json({ message: 'Login successful', user: payload, token: token });
     } catch (error) {
@@ -104,7 +95,7 @@ const loginUser = async (req, res) => {
 }
 
 const verifySession = (req, res, next) => {
-    const { token } = req.body;
+    const token = req.params.authToken;
   
     if (token) {
         console.log('Token value:', token);

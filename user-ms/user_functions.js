@@ -127,8 +127,7 @@ const logoutUser = (req, res) => {
     res.clearCookie('authToken', { // Clear the cookie
         httpOnly: true,
         secure: false,
-        sameSite: 'none', 
-        maxAge: 3600000,
+        sameSite: 'none',
         path: '/',
     });
   

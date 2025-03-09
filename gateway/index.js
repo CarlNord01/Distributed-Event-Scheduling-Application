@@ -25,6 +25,7 @@ function createDynamicProxy(targetIP) {
       if (req.headers.cookie) {
         const parsedCookies = cookie.parse(req.headers.cookie);
         const jwtToken = parsedCookies.authToken;
+        console.log('Token value: ', jwtToken);
 
         if (jwtToken) {
           proxyReq.setHeader('Authorization', `Bearer ${jwtToken}`);

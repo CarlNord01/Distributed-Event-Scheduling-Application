@@ -14,9 +14,9 @@ export const findSession = async () => {
       }
 
       const response = await axios.get(`${IP_ADDRESS}/user/session`, {
+          withCredentials: true,
           headers: {
-              Authorization: `Bearer ${authToken}`,
-              cookie: `${authToken}`
+              Authorization: `Bearer ${authToken}`
           }
       });
 

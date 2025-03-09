@@ -3,21 +3,9 @@ const IP_ADDRESS = 'http://9.223.136.195';
 
 export const findSession = async () => {
   try {
-    const cookies = document.cookie.split(';');
-      let authToken = null;
-      for (let cookie of cookies) {
-          const parts = cookie.split('=');
-          if (parts[0].trim() === 'authToken') {
-              authToken = parts[1];
-              break;
-          }
-      }
-
-      const response = await axios.get(`${IP_ADDRESS}/user/session`, {
-          withCredentials: true,
-          headers: {
-              Authorization: `Bearer ${authToken}`
-          }
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get(`${IP_ADDRESS}/user/session`, {token},{
+          withCredentials: true
       });
 
       console.log("Session data:", response.data);
@@ -39,6 +27,8 @@ export const userLogin = async (username, password) => {
   
       // Axios automatically handles JSON parsing and status codes 2xx as successful.
       if (response.status >= 200 && response.status < 300) {  //Explicit check for success status codes.
+          // Store the token in localStorage
+          localStorage.setItem('authToken', response.data.token);
           return response.data; // Axios already parsed the JSON
       } else {
           //This part will probably not be reached, but is put here to be symantically similar to the original function

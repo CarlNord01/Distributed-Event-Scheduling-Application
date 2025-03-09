@@ -53,15 +53,14 @@ client.connect()
     .then(() => {
         db = client.db('mydatabase');
         app.locals.db = db;
-        logger.info('Connected successfully to MongoDB');
+        console.log('Connected successfully to MongoDB');
 
         app.listen(port, () => {
             console.log(`Server started on port: ${port}`);
-            logger.info(`Server started on port: ${port}`);
         });
     })
     .catch(err => {
-        logger.error(`Server startup failed! Error: ${err}`);
+        console.error(`Server startup failed! Error: ${err}`);
         process.exit(1);
     });
 

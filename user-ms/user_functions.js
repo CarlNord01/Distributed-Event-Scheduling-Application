@@ -104,10 +104,9 @@ const loginUser = async (req, res) => {
 }
 
 const verifySession = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    const { token } = req.body;
   
-    if (authHeader) {
-        const token = authHeader.split(' ')[1]; // Extract token from 'Bearer <token>'
+    if (token) {
         console.log('Token value:', token);
     
         jwt.verify(token, JWT_SECRET, (err, user) => {
@@ -124,13 +123,6 @@ const verifySession = (req, res, next) => {
 };
   
 const logoutUser = (req, res) => {
-    res.clearCookie('authToken', { // Clear the cookie
-        httpOnly: false,
-        secure: false,
-        sameSite: 'none',
-        path: '/',
-    });
-  
     return res.status(200).json({ message: 'Logout successful' });
   };
 

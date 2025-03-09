@@ -42,7 +42,7 @@ class CreateEventPage extends React.Component {
     const verifySession = async () => {
       try {
         const sessionStatus = await findSession();
-        if (sessionStatus) {
+        if (sessionStatus.status == 200) {
           // eslint-disable-next-line
           this.setState({ user: sessionStatus.user });
         } else {

@@ -7,10 +7,11 @@ export const findSession = async () => {
       const response = await axios.get(`${IP_ADDRESS}/user/session/${token}`,{
           withCredentials: true
       });
-
       console.log("Session data:", response.data);
+      return { status: response.status, user: response.data };
   } catch (error) {
       console.error("Error fetching session:", error);
+      return {status: error.response?.status || 500, error: error.message };
   }
 };
 

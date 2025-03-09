@@ -14,9 +14,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: 'gateway'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,16 +23,30 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Cache Node.js modules
+      - name: Cache Node.js modules (gateway)
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: gateway/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('gateway/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies
+      - name: Install dependencies (gateway)
         run: npm install
+        working-directory: gateway
+
+      - name: Cache Node.js modules (events-ms)
+        uses: actions/cache@v3
+        with:
+          path: events-ms/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('events-ms/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies (events-ms)
+        run: npm install
+        working-directory: events-ms
 
       - name: Run tests
         run: npm test
+        working-directory: gateway

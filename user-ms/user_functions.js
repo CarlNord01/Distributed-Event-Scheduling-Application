@@ -88,7 +88,7 @@ const loginUser = async (req, res) => {
 
         // Send token as cookie
         res.cookie('authToken', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: false, // false for http
             sameSite: 'none', // recommended for security
             maxAge: 3600000, // 1 hour (matching token expiration)
@@ -125,7 +125,7 @@ const verifySession = (req, res, next) => {
   
 const logoutUser = (req, res) => {
     res.clearCookie('authToken', { // Clear the cookie
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
         sameSite: 'none',
         path: '/',

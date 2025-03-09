@@ -36,7 +36,7 @@ function EventList() {
   const [showFriendsEvents, setShowFriendsEvents] = useState(false); // Toggle to show only friends' events
   const [eventVisibilityFilter, setEventVisibilityFilter] = useState('all'); // Filter for event visibility (public/private)
 
-  const IP_ADDRESS = 'http://9.223.136.195';
+  const IP_ADDRESS = 'http://9.223.201.161';
   useEffect(() => {
     // Fetch logged-in user's ID
     const fetchUserId = async () => {

@@ -6,7 +6,7 @@ function RequestList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
-    const IP_ADDRESS = 'http://9.223.136.195';
+    const IP_ADDRESS = 'http://9.223.201.161';
 
     // Fetch current user session to get userId
     useEffect(() => {

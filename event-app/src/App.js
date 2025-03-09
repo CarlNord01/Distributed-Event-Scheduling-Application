@@ -16,7 +16,7 @@ import Drawer from './components/Drawer.js';
 import UsersPage from './routes/UsersPage';
 import TermsOfService from './routes/TermsOfService.js';
 
-const IP_ADDRESS = 'http://9.223.136.195';
+const IP_ADDRESS = 'http://9.223.201.161';
 
 const darkTheme = createTheme({
   components: {
@@ -61,7 +61,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://9.223.136.195/user/logout', {
+      const response = await fetch('http://9.223.201.161/user/logout', {
         method: 'POST',
         credentials: 'include', // Ensure cookies are sent with the request
       });

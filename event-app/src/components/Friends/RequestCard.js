@@ -7,7 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { Avatar, Button, Stack } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import stringToColor from '../StringToColor.js';
-const IP_ADDRESS = 'http://9.223.136.195';
+const IP_ADDRESS = 'http://9.223.201.161';
 
 function RequestCard({ name, id, onAccept, onDecline }) {
 

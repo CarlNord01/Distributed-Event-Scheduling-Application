@@ -11,7 +11,7 @@ function UserList() {
     const [user, setUser] = useState([]);
     const [tempFilteredUser, setTempFilteredUser] = useState([]); // Temporary state to store the unfiltered user list
 
-    const IP_ADDRESS = 'http://9.223.136.195';
+    const IP_ADDRESS = 'http://9.223.201.161';
     useEffect(() => {
         const fetchData = async () => {
             try {

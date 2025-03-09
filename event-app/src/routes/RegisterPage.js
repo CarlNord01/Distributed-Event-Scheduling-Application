@@ -14,7 +14,7 @@ const RegistrationPage = () => {
     const avatarStyle = { backgroundColor: '--clr-background-bright' };
     const btnStyle = { backgroundColor: '--clr-background-bright', margin: '12px 0' };
     const [loading, setLoading] = React.useState(false);
-    const IP_ADDRESS = 'http://9.223.136.195';
+    const IP_ADDRESS = 'http://9.223.201.161';
     axios.defaults.withCredentials = true;
 
     // Form state

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const IP_ADDRESS = 'http://9.223.136.195';
+const IP_ADDRESS = 'http://9.223.201.161';
 
 export const sendFriendRequest = async (targetUserId) => {
     try {

@@ -14,7 +14,7 @@ function EventPage() {
   const [owner, setOwner] = useState(null); // For storing the owner's username
   const { event_id } = useParams();
 
-  const IP_ADDRESS = 'http://9.223.136.195';
+  const IP_ADDRESS = 'http://9.223.201.161';
 
   useEffect(() => {
     // fetches event details using event_id

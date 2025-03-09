@@ -18,7 +18,7 @@ import Diversity1Icon from '@mui/icons-material/Diversity1';
 export default function ProfileDrawer({ open, onClose, handleLogout }) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null); // State to store userId
-  const IP_ADDRESS = 'http://9.223.136.195';
+  const IP_ADDRESS = 'http://9.223.201.161';
 
   // Fetch the logged-in user's information when the component mounts
   useEffect(() => {

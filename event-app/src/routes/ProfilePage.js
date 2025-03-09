@@ -15,7 +15,7 @@ function ProfilePage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const IP_ADDRESS = 'http://9.223.136.195';
+  const IP_ADDRESS = 'http://9.223.201.161';
 
   // Check local storage for user information on component mount
   useEffect(() => {

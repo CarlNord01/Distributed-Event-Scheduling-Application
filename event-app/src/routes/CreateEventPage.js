@@ -102,7 +102,7 @@ class CreateEventPage extends React.Component {
       return;
     }
   
-    const IP_ADDRESS = 'http://9.223.136.195';
+    const IP_ADDRESS = 'http://9.223.201.161';
     
     const { singleDay, fullDay, privateEvent } = this.state;
   

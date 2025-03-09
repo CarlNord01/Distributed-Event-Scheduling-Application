@@ -1,4 +1,4 @@
-const IP_ADDRESS = 'http://9.223.136.195';
+const IP_ADDRESS = 'http://9.223.201.161';
 export const getLatestEvents = async () => {
     try {
       const response = await fetch(`${IP_ADDRESS}/events/latest`, {

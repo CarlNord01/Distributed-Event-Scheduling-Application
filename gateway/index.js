@@ -50,9 +50,12 @@ app.all('*', (req, res) => {
   res.status(404).send('Error: Not found');
 });
 
-const server = app.listen(5000, () => {
-  console.log(`Gateway server is running on port 5000`);
-});
+// Only start the server if not in the test environment
+if (process.env.NODE_ENV !== 'test') {
+  const server = app.listen(5000, () => {
+    console.log(`Gateway server is running on port 5000`);
+  });
+}
 
-// Export server for testing
-module.exports = { app, server, createDynamicProxy };
+// Export app for testing purposes (don't start server here)
+module.exports = { app, createDynamicProxy };

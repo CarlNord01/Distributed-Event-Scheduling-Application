@@ -1,38 +1,48 @@
 const { ObjectId } = require('mongodb');
 
 const createEvent = async (req, res) => {
+    console.log('createEvent called');
+    console.log('req:', req);
+    console.log('res:', res);
+
     try {
-        const { title, singleDay, startDate, endDate, startTime, endTime, description, privateEvent } = req.body;
-    
-        // Basic validation
-        if (!title || !startDate || !startTime || !endTime || (singleDay === false && !endDate)) {
-          return res.status(400).json({ message: 'All required fields must be filled out.' });
+        if (!req.user || !req.user.userId) {
+            return res.status(401).json({ message: 'Unauthorized' });
         }
-    
-        // Prepare the event data
+
+        if (!req.app || !req.app.locals || !req.app.locals.db) {
+            console.error('Database connection is not available.');
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+
+        const { title, singleDay, startDate, endDate, startTime, endTime, description, privateEvent } = req.body;
+
+        if (!title || !startDate || !startTime || !endTime || (singleDay === false && !endDate)) {
+            return res.status(400).json({ message: 'All required fields must be filled out.' });
+        }
+
         const newEvent = {
-          title,
-          privateEvent,
-          singleDay,
-          startDate,
-          endDate: singleDay ? startDate : endDate,
-          startTime,
-          endTime,
-          description,
-          owner: req.user.userId
+            title,
+            privateEvent,
+            singleDay,
+            startDate,
+            endDate: singleDay ? startDate : endDate,
+            startTime,
+            endTime,
+            description,
+            owner: req.user.userId,
         };
-    
-        // Save the event to the database
-        const result = await db.collection('events').insertOne(newEvent);
+
+        // Add await here
+        const result = await req.app.locals.db.collection('events').insertOne(newEvent);
 
         res.status(201).json({ message: 'Event created successfully', eventId: result.insertedId });
-      } catch (error) {
-        console.error(`Error creating event: ${error}`); // Log the error
-
+    } catch (error) {
+        console.error(`Error creating event: ${error}`);
+        console.log('res in catch:', res); // Log res in the catch block
         res.status(500).json({ message: 'Failed to create event', error: error.message });
-      }
-      return res;
-}
+    }
+};
 
 const publicEvents = async (req, res) => {
     try {

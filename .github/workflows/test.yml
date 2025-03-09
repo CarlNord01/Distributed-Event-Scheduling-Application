@@ -8,10 +8,15 @@ on:
     branches:
       - main
 
+  # Allows workflow to be invoked manually through the GitHub Actions user interface.
+  workflow_dispatch:
+
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: 'gateway'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,14 +24,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.17.0' # Or your Node.js version
+          node-version: '20'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('gateway/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: |
-          cd gateway
-          npm install
+        run: npm install
 
       - name: Run tests
-        run: |
-          cd gateway
-          npm test
+        run: npm test

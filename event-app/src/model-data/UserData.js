@@ -3,21 +3,8 @@ const IP_ADDRESS = 'http://9.223.136.195';
 
 export const findSession = async () => {
   try {
-      const cookies = document.cookie.split(';');
-      let authToken = null;
-      for (let cookie of cookies) {
-          const parts = cookie.split('=');
-          if (parts[0].trim() === 'authToken') {
-              authToken = parts[1];
-              break;
-          }
-      }
-
       const response = await axios.get(`${IP_ADDRESS}/user/session`, {
-          withCredentials: true,
-          headers: {
-              Authorization: `Bearer ${authToken}`
-          }
+          withCredentials: true
       });
 
       console.log("Session data:", response.data);

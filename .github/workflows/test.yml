@@ -22,7 +22,11 @@ jobs:
           node-version: '20.17.0' # Or your Node.js version
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd gateway
+          npm install
 
       - name: Run tests
-        run: npm test
+        run: |
+          cd gateway
+          npm test

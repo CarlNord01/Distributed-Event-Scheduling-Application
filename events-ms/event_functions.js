@@ -1,4 +1,6 @@
 const { ObjectId } = require('mongodb');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
 const createEvent = async (req, res) => {
     try {
@@ -161,6 +163,25 @@ const userPublicEvents = async (req, res) => {
     return res;
 }
 
+const verifySession = (req, res, next) => {
+    const token = req.params.authToken;
+  
+    if (token) {
+        console.log('Token value:', token);
+    
+        jwt.verify(token, JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+
+            req.user = user; // Attach user information to the request
+            next();
+        });
+    } else {
+        res.sendStatus(401); // Unauthorized
+    }
+};
+
 module.exports = {
     createEvent,
     publicEvents,
@@ -169,5 +190,6 @@ module.exports = {
     currentUserEvents,
     userEvents,
     userPrivateEvents,
-    userPublicEvents
+    userPublicEvents,
+    verifySession
 };

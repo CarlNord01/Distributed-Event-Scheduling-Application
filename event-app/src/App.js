@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider, Avatar, IconButton, Button, ButtonGroup } from '@mui/material';
 import HomePage from './routes/HomePage';
 import PublicEvents from './routes/PublicEvents';
@@ -17,6 +17,7 @@ import UsersPage from './routes/UsersPage';
 import TermsOfService from './routes/TermsOfService.js';
 
 const IP_ADDRESS = 'http://9.223.136.195';
+const navigate = useNavigate(); // Initialize useNavigate
 
 const darkTheme = createTheme({
   components: {
@@ -59,25 +60,9 @@ function App() {
   };
 
   const handleLogout = async () => {
-    try {
-      const response = await fetch('http://9.223.136.195/user/logout', {
-        method: 'POST',
-        credentials: 'include', // Ensure cookies are sent with the request
-      });
-      console.log(response);
-  
-      if (response.ok) {
-        // Clear client-side session data (if any)
-        localStorage.removeItem('user'); // or any other session-related data
-        sessionStorage.clear();
-  
-        window.location.href = '/login'; // Send user to login page
-      } else {
-        console.error('Failed to log out');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
+    localStorage.clear();
+    setUser(null);
+    navigate("/");
   };
 
   return (

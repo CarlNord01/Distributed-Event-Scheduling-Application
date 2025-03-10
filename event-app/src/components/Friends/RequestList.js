@@ -40,7 +40,7 @@ function RequestList() {
         const fetchFriendRequests = async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await fetch(`${IP_ADDRESS}/friends/requests/${userId}/${token}`, {
+                const response = await fetch(`${IP_ADDRESS}/friends/list-requests/${userId}/${token}`, {
                     credentials: 'include'
                 });
 

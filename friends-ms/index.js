@@ -42,10 +42,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha';
 
 // Middleware for JWT verification
 const verifySession = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    const token = req.params.authToken;
   
-    if (authHeader) {
-        const token = authHeader.split(' ')[1]; // Extract token from 'Bearer <token>'
+    if (token) {
         console.log('Token value:', token);
     
         jwt.verify(token, JWT_SECRET, (err, user) => {
@@ -91,28 +90,28 @@ app.use((req, res, next) => {
 });
 
 // Send friend request
-app.post('/request/:userId/', verifySession, sendRequest);
+app.post('/request/:userId/:authToken/', verifySession, sendRequest);
 
 // Get Friend Requests
-app.get('/list-requests/:userId/', verifySession, listRequests);
+app.get('/list-requests/:userId/:authToken/', verifySession, listRequests);
 
 // Accept Friend Request
-app.post('/request/accept/:senderId/', verifySession, acceptRequest);
+app.post('/request/accept/:senderId/:authToken/', verifySession, acceptRequest);
 
 // Decline Friend Request
-app.post('/request/decline/:senderId/', verifySession, declineRequest);
+app.post('/request/decline/:senderId/:authToken/', verifySession, declineRequest);
 
 // Get Friends List
-app.get('/list/', verifySession, listFriends);
+app.get('/list/:authToken/', verifySession, listFriends);
 
 // Check friendness status
-app.get('/checkfriend/:userId2/', verifySession, checkFriendness);
+app.get('/checkfriend/:userId2/:authToken/', verifySession, checkFriendness);
 
 // Check pending friend request
-app.get('/checkfriend/request/:userId2/', verifySession, checkFriendRequestStatus);
+app.get('/checkfriend/request/:userId2/:authToken/', verifySession, checkFriendRequestStatus);
 
 // Remove friend
-app.post('/remove/:victim/', verifySession, removeFriend);
+app.post('/remove/:victim/:authToken/', verifySession, removeFriend);
 
 // Test api health
 app.get('/health/', async (req, res) => {

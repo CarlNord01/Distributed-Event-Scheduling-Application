@@ -1,0 +1,4 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
+Get Latest,100,56,35,152,"21,25","0,000%","1,68180","1,87","0,21","1137,0"
+Post Login,100,411,334,483,"24,31","0,000%","1,67157","1,11","0,38","683,0"
+TOTAL,200,234,35,483,"178,89","0,000%","3,31285","2,94","0,59","910,0"

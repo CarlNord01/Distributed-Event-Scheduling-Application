@@ -64,16 +64,16 @@ app.get('/latest', latestEvents);
 app.get('/single/:id', eventByID);
 
 // Fetch events owned by the current user
-app.get('/user/:authToken', verifySession, currentUserEvents);
+app.get('/user/current/:authToken', verifySession, currentUserEvents);
 
 // Fetch events for a specific user
 app.get('/user/:userId', userEvents);
 
 // Fetch private events for a specific user
-app.get('/user/:userId/private/:authToken', verifySession, userPrivateEvents);
+app.get('/user/private/:userId/:authToken', verifySession, userPrivateEvents);
 
 // Fetch public events for a specific user
-app.get('/user/:userId/public', userPublicEvents);
+app.get('/user/public/:userId', userPublicEvents);
 
 // Test api health
 app.get('/health', (req, res) => {

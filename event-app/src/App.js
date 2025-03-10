@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { createTheme, ThemeProvider, Avatar, IconButton, Button, ButtonGroup } from '@mui/material';
 import HomePage from './routes/HomePage';
 import PublicEvents from './routes/PublicEvents';
@@ -17,7 +17,6 @@ import UsersPage from './routes/UsersPage';
 import TermsOfService from './routes/TermsOfService.js';
 
 const IP_ADDRESS = 'http://9.223.136.195';
-const navigate = useNavigate(); // Initialize useNavigate
 
 const darkTheme = createTheme({
   components: {
@@ -62,7 +61,6 @@ function App() {
   const handleLogout = async () => {
     localStorage.clear();
     setUser(null);
-    navigate("/");
   };
 
   return (

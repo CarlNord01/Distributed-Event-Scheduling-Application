@@ -11,22 +11,8 @@ const { sendRequest,
     verifySession 
 } = require('./friend_functions');
 const { MongoClient } = require('mongodb');
-const winston = require('winston');
 const jwt = require('jsonwebtoken');
 require('dotenv').config(); // Load environment variables
-
-// Logger setup
-const logger = winston.createLogger({
-    level: 'info', // Set the desired log level
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json() // Log in JSON format
-    ),
-    transports: [
-        //new winston.transports.File({ name: 'error-fine', level: 'error', filename: 'error-log.txt'}), // Log errors to file
-        new winston.transports.File({ name: 'info-file', level: 'info', filename: 'info-log.txt' }) // Log info to file
-    ]
-});
 
 const app = express();
 const port = 5052;

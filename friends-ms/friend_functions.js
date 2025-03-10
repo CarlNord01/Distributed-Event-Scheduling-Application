@@ -7,12 +7,12 @@ const sendRequest = async (req, res) => {
         const { userId } = req.params;
         const senderId = req.user.userId; // Get senderId from JWT
 
-        logger.info('Sender ID:', senderId);
-        logger.info('Recipient ID:', userId);
+        console.info('Sender ID:', senderId);
+        console.info('Recipient ID:', userId);
 
         // Validate userId 
         if (!ObjectId.isValid(userId)) {
-            logger.info('Invalid ObjectId:', userId);
+            console.info('Invalid ObjectId:', userId);
             return res.status(400).json({ message: 'Invalid user ID' });
         }
 
@@ -22,7 +22,7 @@ const sendRequest = async (req, res) => {
 
         // Check if the user is trying to send a request to themselves
         if (senderObjectId.equals(recipientObjectId)) {
-            logger.info('User tried to send a request to themselves');
+            console.info('User tried to send a request to themselves');
             return res.status(400).json({ message: 'Cannot send a friend request to yourself' });
         }
 
@@ -34,7 +34,7 @@ const sendRequest = async (req, res) => {
             ]
         });
 
-        logger.info('Existing request found:', existingRequest);
+        console.info('Existing request found:', existingRequest);
 
         if (existingRequest) {
             return res.status(400).json({ message: 'Friend request already exists' });
@@ -48,10 +48,10 @@ const sendRequest = async (req, res) => {
             ]
         });
 
-        logger.info('Already friends check result:', alreadyFriends);
+        console.info('Already friends check result:', alreadyFriends);
 
         if (alreadyFriends) {
-            logger.info('Users are already friends');
+            console.info('Users are already friends');
             return res.status(400).json({ message: 'You are already friends with this user' });
         }
 
@@ -61,11 +61,11 @@ const sendRequest = async (req, res) => {
             { $push: { friendRequests: { sender: senderObjectId } } }
         );
 
-        logger.info('Friend request sent successfully');
+        console.info('Friend request sent successfully');
         res.status(200).json({ message: 'Friend request sent.' });
 
     } catch (error) {
-        logger.error('Error sending friend request:', error);
+        console.error('Error sending friend request:', error);
         res.status(500).json({ message: 'Error sending friend request.' });
     }
     return res;
@@ -76,7 +76,7 @@ const listRequests = async (req, res) => {
         const db = req.app.locals.db;
         
         // Log the raw User ID from the request
-        logger.info('Raw User ID:', req.params.userId);
+        console.info('Raw User ID:', req.params.userId);
         
         const userId = new ObjectId(req.params.userId);
         
@@ -87,14 +87,14 @@ const listRequests = async (req, res) => {
         );
         
         if (user) {
-            logger.info('Friend Requests found:', user.friendRequests);
+            console.info('Friend Requests found:', user.friendRequests);
             res.json({ friendRequests: user.friendRequests });
         } else {
-            logger.info('User not found');
+            console.info('User not found');
             res.status(404).json({ message: 'User not found' });
         }
     } catch (err) {
-        logger.error('Error fetching friend requests:', err);
+        console.error('Error fetching friend requests:', err);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
@@ -126,7 +126,7 @@ const acceptRequest = async (req, res) => {
 
         res.status(200).json({ message: 'Friend request accepted and friendship established.' });
     } catch (error) {
-        logger.error('Error accepting friend request:', error);
+        console.error('Error accepting friend request:', error);
         res.status(500).json({ message: 'Failed to accept friend request' });
     }
 }
@@ -147,7 +147,7 @@ const declineRequest = async (req, res) => {
 
         res.status(200).json({ message: 'Friend request declined.' });
     } catch (error) {
-        logger.error('Error declining friend request:', error);
+        console.error('Error declining friend request:', error);
         res.status(500).json({ message: 'Failed to decline friend request' });
     }
 }
@@ -155,7 +155,7 @@ const declineRequest = async (req, res) => {
 const listFriends = async (req, res) => {
     try {
         const userId = new ObjectId(req.user.userId);
-        logger.info(`Requested user id: ${userId}`);
+        console.info(`Requested user id: ${userId}`);
 
         const user = await db.collection('users').aggregate([
             { $match: { _id: userId } },
@@ -179,7 +179,7 @@ const listFriends = async (req, res) => {
 
         res.status(200).json(user);
     } catch (error) {
-        logger.error('Error fetching friends:', error);
+        console.error('Error fetching friends:', error);
         res.status(500).json({ message: 'Error fetching friends.' });
     }
 }
@@ -191,7 +191,7 @@ const checkFriendness = async (req, res) => {
 
         // Validate userId1 and userId2 (ensure they are valid ObjectIds)
         if (!ObjectId.isValid(userId1) || !ObjectId.isValid(userId2)) {
-            logger.info("INVALID USER ID(s)");
+            console.info("INVALID USER ID(s)");
             return res.status(400).json({ message: 'Invalid user ID(s)' });
         }
 
@@ -206,7 +206,7 @@ const checkFriendness = async (req, res) => {
 
         res.status(200).json(!!result);
     } catch (error) {
-        logger.error('Error checking friend status:', error);
+        console.error('Error checking friend status:', error);
         res.status(500).json({ message: 'Error checking friend status.' });
     }
 }
@@ -218,7 +218,7 @@ const checkFriendRequestStatus = async (req, res) => {
 
         // Validate userId1 and userId2 (ensure they are valid ObjectIds)
         if (!ObjectId.isValid(userId1) || !ObjectId.isValid(userId2)) {
-            logger.info("INVALID USER ID(s)");
+            console.info("INVALID USER ID(s)");
             return res.status(400).json({ message: 'Invalid user ID(s)' });
         }
 
@@ -232,7 +232,7 @@ const checkFriendRequestStatus = async (req, res) => {
         });
         res.status(200).json(!!result);
     } catch (error) {
-        logger.error('Error checking friend request status:', error);
+        console.error('Error checking friend request status:', error);
         res.status(500).json({ message: 'Error checking friend request status.' });
     }
 }
@@ -263,7 +263,7 @@ const removeFriend = async (req, res) => {
 
         res.status(204).json({ message: 'Friend killed, how brutal...' });
     } catch (error) {
-        logger.error('Error killing victim:', error);
+        console.error('Error killing victim:', error);
         res.status(500).json({ message: 'Failed to kill victim. Police are on their way...' });
     }
 }

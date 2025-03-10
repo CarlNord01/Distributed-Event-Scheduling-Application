@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
 const sendRequest = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const { userId } = req.params;
         const senderId = req.user.userId; // Get senderId from JWT
@@ -73,7 +74,7 @@ const sendRequest = async (req, res) => {
 
 const listRequests = async (req, res) => {
     try {
-        const db = req.app.locals.db;
+        const db = req.app.locals.db; // Access the database from app.locals
         
         // Log the raw User ID from the request
         console.info('Raw User ID:', req.params.userId);
@@ -100,6 +101,7 @@ const listRequests = async (req, res) => {
 }
 
 const acceptRequest = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const recipientId = req.user.userId; // The logged-in user who is accepting the request
         const { senderId } = req.params;
@@ -132,6 +134,7 @@ const acceptRequest = async (req, res) => {
 }
 
 const declineRequest = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const recipientId = req.user.userId;
         const { senderId } = req.params;
@@ -153,6 +156,7 @@ const declineRequest = async (req, res) => {
 }
 
 const listFriends = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = new ObjectId(req.user.userId);
         console.info(`Requested user id: ${userId}`);
@@ -185,6 +189,7 @@ const listFriends = async (req, res) => {
 }
 
 const checkFriendness = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId1 = req.user.userId;
         const { userId2 } = req.params;
@@ -212,6 +217,7 @@ const checkFriendness = async (req, res) => {
 }
 
 const checkFriendRequestStatus = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId1 = req.user.userId;
         const { userId2 } = req.params;
@@ -240,6 +246,7 @@ const checkFriendRequestStatus = async (req, res) => {
 const removeFriend = async (req, res) => {
     const killer = req.user.userId; // The logged-in user who is requesting removal
     const { victim } = req.params;
+    const db = req.app.locals.db; // Access the database from app.locals
 
     try {
         const killerId = new ObjectId(killer);

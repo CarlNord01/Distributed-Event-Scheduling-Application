@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
 const createEvent = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const { title, singleDay, startDate, endDate, startTime, endTime, description, privateEvent } = req.body;
     
@@ -84,6 +85,7 @@ const eventByID = async (req, res) => {
 }
 
 const currentUserEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.user.userId;
     
@@ -98,6 +100,7 @@ const currentUserEvents = async (req, res) => {
 }
 
 const userEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.params.userId;
     
@@ -118,6 +121,7 @@ const userEvents = async (req, res) => {
 }
 
 const userPrivateEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.params.userId;
 
@@ -141,6 +145,7 @@ const userPrivateEvents = async (req, res) => {
 }
 
 const userPublicEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.params.userId;
 

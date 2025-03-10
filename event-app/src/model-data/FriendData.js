@@ -41,30 +41,26 @@ export const killFriend = async (victimId) => {
 };
 
 export const getUserFriends = async () => {
-    try {
-      const token = localStorage.getItem('authToken');
-      const response = await fetch(`${IP_ADDRESS}/friends/list/${token}`, {
-        credentials: 'include'
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-  
-      // Assuming /api/friends now returns an array of { _id, username }
-      const friendsWithUsernames = data.map(friend => ({
-        id: friend._id, 
-        username: friend.username
-      }));
-      
-      return friendsWithUsernames;
-  
-    } catch (error) {
-      console.error('Error fetching friends:', error);
-      return error; 
-    }
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await axios.get(`${IP_ADDRESS}/friends/list/${token}`, {
+        withCredentials: true, 
+    });
+
+    // axios automatically parses the JSON response
+    const data = response.data;
+
+    const friendsWithUsernames = data.map(friend => ({
+        id: friend._id,
+        username: friend.username,
+    }));
+
+    return friendsWithUsernames;
+
+} catch (error) {
+    console.error('Error fetching friends:', error);
+    return error;
+}
 };
 
 export const checkFriend = async (userId) => {

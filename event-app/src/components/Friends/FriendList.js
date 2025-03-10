@@ -15,8 +15,11 @@ function FriendList() {
       try {
         const sessionStatus = await findSession();
         if (sessionStatus.status == 200) {
-          setUserId(sessionStatus.userId);
-          console.log('userId found');
+          // Get userId from localstorage
+          const userString = localStorage.getItem('user');
+          const userObject = JSON.parse(userString);
+          
+          setUserId(userObject.userId);
         } else {
           console.log('userId not found');
         }

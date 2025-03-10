@@ -220,7 +220,7 @@ const checkFriendRequestStatus = async (req, res) => {
     const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId1 = req.user.userId;
-        const { userId2 } = req.params;
+        const { userId2 } = req.params.userId2;
 
         // Validate userId1 and userId2 (ensure they are valid ObjectIds)
         if (!ObjectId.isValid(userId1) || !ObjectId.isValid(userId2)) {

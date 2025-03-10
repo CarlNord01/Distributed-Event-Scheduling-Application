@@ -13,7 +13,8 @@ function RequestCard({ name, id, onAccept, onDecline }) {
 
     const handleAccept = async () => {
         try {
-            const response = await fetch(`${IP_ADDRESS}/friends/request/accept/${id}`, {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`${IP_ADDRESS}/friends/request/accept/${id}/${token}`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -30,7 +31,8 @@ function RequestCard({ name, id, onAccept, onDecline }) {
 
     const handleDecline = async () => {
         try {
-            const response = await fetch(`${IP_ADDRESS}/friends/request/decline/${id}`, {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`${IP_ADDRESS}/friends/request/decline/${id}/${token}`, {
                 method: 'POST',
                 credentials: 'include',
             });

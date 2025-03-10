@@ -141,7 +141,7 @@ function ProfilePage() {
                     variant='contained'
                     onClick={() => {
                     sendFriendRequest(userId);
-                    window.location.reload();
+                    //window.location.reload();
                   }}>
                     Add Friend
                   </Button>

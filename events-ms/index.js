@@ -42,8 +42,13 @@ client.connect()
         app.locals.db = db;
         console.log('Connected successfully to MongoDB');
 
-        app.listen(port, () => {
+        const server = app.listen(port, () => {
             console.log(`Server started on port: ${port}`);
+        });
+
+        server.on('error', (err) => {
+            logger.error(`Server startup failed! Error: ${err}`);
+            process.exit(1);
         });
     })
     .catch(err => {
@@ -51,6 +56,21 @@ client.connect()
         process.exit(1);
     });
 
+// Health check endpoint
+app.get('/health', async (req, res) => {
+    if (client.topology && client.topology.isConnected()) {
+        try {
+            // Optionally, you can perform a simple ping to the database
+            await db.command({ ping: 1 });
+            res.status(200).json({ status: 'ok', database: 'connected' });
+        } catch (dbError) {
+            logger.error(`Database ping failed: ${dbError}`);
+            res.status(500).json({ status: 'error', database: 'ping failed' });
+        }
+    } else {
+        res.status(500).json({ status: 'error', database: 'not connected' });
+    }
+});
 // Create a new event
 app.post('/create-new/:authToken', verifySession, createEvent);
 
@@ -74,8 +94,3 @@ app.get('/user/private/:userId/:authToken', verifySession, userPrivateEvents);
 
 // Fetch public events for a specific user
 app.get('/user/public/:userId', userPublicEvents);
-
-// Test api health
-app.get('/health', (req, res) => {
-    res.sendStatus(200);
-  });

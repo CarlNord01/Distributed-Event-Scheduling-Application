@@ -1,3 +1,5 @@
+@import './variables.css'; /* Import standardized css variables */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +7,125 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  line-height: normal;                              /* Set default line height for text */
+  height: auto;                                     /* Fill page if content isn't enough to fill the screen*/
+  background-color: var(--clr-background-mid);      /* Main background color */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App {
+  text-align: center;
+}
+
+* {
+  color: var(--clr-text-bright);                    /* Set default text color */
+}
+
+a {
+  text-decoration: none;                            /* Removes the underline from links */
+}
+
+header {
+  /* Visual design */
+  background-color: var(--clr-background-dark);
+  min-height: 4rem;
+  font-size: 1.2rem;
+
+  /* Positioning */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+header .navbar_logo {
+  height: 3.5rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: left;
+  font-size: 1.2rem;
+  width: 50%;
+}
+
+.Login {
+  margin-right: 1rem;
+  width: fit-content;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.Content {
+  /* Visual design */
+  height: auto;
+  width: 80%;
+  max-width: 70rem;
+
+  /* Border */
+  border-radius: 1rem;
+  /*border-left: 0.15rem solid var(--clr-background-dark);
+  border-right: 0.15rem solid var(--clr-background-dark);*/
+
+  /* Positioning */
+  padding: 2.5rem;
+  padding-top: 0;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+}
+
+.PageTitle {
+  font-size: 2rem;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+
+  border-radius: 1rem;
+  border-bottom: 0.15rem solid var(--clr-background-dark);
+  border-top: 0.15rem solid var(--clr-background-dark);
+}
+
+.LoginForm {
+  /* Visual design */
+  height: 35rem;
+  width: fit-content;
+  max-width: 70rem;
+
+  /* Border */
+  border-radius: 1rem;
+  border-left: 0.15rem solid var(--clr-background-dark);
+  border-right: 0.15rem solid var(--clr-background-dark);
+
+  /* Positioning */
+  padding: 2.5rem;
+  padding-top: 0;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+}
+
+.tos {
+  font-size: 1.1rem;
+  width: 70%;
+  display: flex; 
+  flex-direction: column;
+  flex-wrap: nowrap;
+  text-align: left;
+}
+
+.tos li {
+  margin-bottom: 1rem;
 }

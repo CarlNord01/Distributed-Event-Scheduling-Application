@@ -1,24 +1,18 @@
 import axios from 'axios';
 const IP_ADDRESS = 'http://9.223.136.195';
+
 export const findSession = async () => {
-    try {
-        const response = await fetch(`${IP_ADDRESS}/user/session`, {
-            method: 'GET',
-            credentials: 'include',
-        });
-
-        if (response.status === 200) {
-            /* Session found */
-            const data = await response.json();
-            return data;
-        }
-        else {
-          throw new Error(`Session not found: ${response.status}`);
-        }
-
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get(`${IP_ADDRESS}/user/session/${token}`,{
+          withCredentials: true
+      });
+      console.log("Session data:", response.data);
+      return { status: response.status, user: response.data };
+  } catch (error) {
+      console.error("Error fetching session:", error);
+      return {status: error.response?.status || 500, error: error.message };
+  }
 };
 
 export const userLogin = async (username, password) => {
@@ -34,6 +28,8 @@ export const userLogin = async (username, password) => {
   
       // Axios automatically handles JSON parsing and status codes 2xx as successful.
       if (response.status >= 200 && response.status < 300) {  //Explicit check for success status codes.
+          // Store the token in localStorage
+          localStorage.setItem('authToken', response.data.token);
           return response.data; // Axios already parsed the JSON
       } else {
           //This part will probably not be reached, but is put here to be symantically similar to the original function

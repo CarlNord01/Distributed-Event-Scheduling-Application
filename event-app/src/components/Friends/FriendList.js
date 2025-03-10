@@ -1,36 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import FriendCard from './FriendCard';
 import { getUserFriends } from '../../model-data/FriendData';
+import { findSession } from '../../model-data/UserData';
 
 function FriendList() {
   const [userId, setUserId] = useState(null);
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const IP_ADDRESS = 'http://9.223.136.195';
 
   // Fetch current user session to get userId
   useEffect(() => {
-      const fetchUserId = async () => {
-          try {
-              const response = await fetch(`${IP_ADDRESS}/user/session`, {
-                  credentials: 'include'
-              });
-
-              if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-              }
-
-              const sessionData = await response.json();
-              setUserId(sessionData.user.userId);
-          } catch (error) {
-              console.error('Error fetching user session:', error);
-              setError(error);
-              setLoading(false);
-          }
-      };
-
-      fetchUserId();
+    const verifySession = async () => {
+      try {
+        const sessionStatus = await findSession();
+        if (sessionStatus.status == 200) {
+          // Get userId from localstorage
+          const userString = localStorage.getItem('user');
+          const userObject = JSON.parse(userString);
+          
+          setUserId(userObject.userId);
+        } else {
+          console.log('userId not found');
+        }
+      } catch (error) {
+        console.error('Error verifying session:', error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    verifySession();
   }, []);
 
   // Fetch friend list

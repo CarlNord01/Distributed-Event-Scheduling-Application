@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
+import { findSession } from '../../model-data/UserData';
 
 function RequestList() {
     const [friendRequests, setFriendRequests] = useState([]);
@@ -10,26 +11,26 @@ function RequestList() {
 
     // Fetch current user session to get userId
     useEffect(() => {
-        const fetchUserId = async () => {
+        const verifySession = async () => {
             try {
-                const response = await fetch(`${IP_ADDRESS}/user/session`, {
-                    credentials: 'include'
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const sessionData = await response.json();
-                setUserId(sessionData.user.userId);
+              const sessionStatus = await findSession();
+              if (sessionStatus.status == 200) {
+                // Get userId from localstorage
+                const userString = localStorage.getItem('user');
+                const userObject = JSON.parse(userString);
+                
+                setUserId(userObject.userId);
+              } else {
+                console.log('userId not found');
+              }
             } catch (error) {
-                console.error('Error fetching user session:', error);
-                setError(error);
-                setLoading(false);
+              console.error('Error verifying session:', error);
+              setError(error);
+            } finally {
+              setLoading(false);
             }
-        };
-
-        fetchUserId();
+          };
+          verifySession();
     }, []);
 
     // Fetch friend requests using userId
@@ -38,7 +39,8 @@ function RequestList() {
 
         const fetchFriendRequests = async () => {
             try {
-                const response = await fetch(`${IP_ADDRESS}/friends/requests/${userId}`, {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch(`${IP_ADDRESS}/friends/list-requests/${userId}/${token}`, {
                     credentials: 'include'
                 });
 

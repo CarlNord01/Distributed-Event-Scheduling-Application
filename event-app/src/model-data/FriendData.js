@@ -3,8 +3,9 @@ const IP_ADDRESS = 'http://9.223.136.195';
 
 export const sendFriendRequest = async (targetUserId) => {
     try {
+      const token = localStorage.getItem('authToken');
       // Make POST request to backend
-      axios.post(`${IP_ADDRESS}/friends/request/${targetUserId}`, { withCredentials: true })
+      axios.post(`${IP_ADDRESS}/friends/request/${targetUserId}/${token}`, { withCredentials: true })
         .then((response) => {
           // Update UI to notify the user of success! 
         })
@@ -21,10 +22,12 @@ export const sendFriendRequest = async (targetUserId) => {
           console.error('Friend request failed:', error);
       }
     }
-  };
-  export const killFriend = async (victimId) => {
+};
+
+export const killFriend = async (victimId) => {
     try {
-        const response = await fetch(`${IP_ADDRESS}/friends/remove/${victimId}`, {
+        const token = localStorage.getItem('authToken');
+        const response = await fetch(`${IP_ADDRESS}/friends/remove/${victimId}/${token}`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -37,35 +40,33 @@ export const sendFriendRequest = async (targetUserId) => {
     }
 };
 
-  export const getUserFriends = async () => {
-    try {
-      const response = await fetch(`${IP_ADDRESS}/friends/list`, {
-        credentials: 'include'
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-  
-      // Assuming /api/friends now returns an array of { _id, username }
-      const friendsWithUsernames = data.map(friend => ({
-        id: friend._id, 
-        username: friend.username
-      }));
-      
-      return friendsWithUsernames;
-  
-    } catch (error) {
-      console.error('Error fetching friends:', error);
-      return error; 
-    }
-  };
+export const getUserFriends = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await axios.get(`${IP_ADDRESS}/friends/list/${token}`, {
+        withCredentials: true, 
+    });
 
-  export const checkFriend = async (userId) => {
+    // axios automatically parses the JSON response
+    const data = response.data;
+
+    const friendsWithUsernames = data.map(friend => ({
+        id: friend._id,
+        username: friend.username,
+    }));
+
+    return friendsWithUsernames;
+
+  } catch (error) {
+    console.error('Error fetching friends:', error);
+    return error;
+  }
+};
+
+export const checkFriend = async (userId) => {
     try {
-      const response = await fetch(`${IP_ADDRESS}/friends/checkfriend/${userId}`, {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${IP_ADDRESS}/friends/checkfriend/${userId}/${token}`, {
         credentials: 'include'
       });
   
@@ -86,11 +87,12 @@ export const sendFriendRequest = async (targetUserId) => {
       console.error('Error checking friend status:', error);
       return error; 
     }
-  };
+};
 
-  export const checkPendingRequest = async (userId) => {
+export const checkPendingRequest = async (userId) => {
     try {
-      const response = await fetch(`${IP_ADDRESS}/friends/checkfriend/request/${userId}`, {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${IP_ADDRESS}/friends/checkfriend/request/${userId}/${token}`, {
         credentials: 'include'
       });
   
@@ -111,4 +113,4 @@ export const sendFriendRequest = async (targetUserId) => {
       console.error('Error checking friend status:', error);
       return error; 
     }
-  };
+};

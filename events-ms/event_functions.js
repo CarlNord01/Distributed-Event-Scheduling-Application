@@ -1,10 +1,9 @@
 const { ObjectId } = require('mongodb');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
 const createEvent = async (req, res) => {
-    console.log('createEvent called');
-    console.log('req:', req);
-    console.log('res:', res);
-
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         if (!req.user || !req.user.userId) {
             return res.status(401).json({ message: 'Unauthorized' });
@@ -92,6 +91,7 @@ const eventByID = async (req, res) => {
 }
 
 const currentUserEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.user.userId;
     
@@ -106,6 +106,7 @@ const currentUserEvents = async (req, res) => {
 }
 
 const userEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.params.userId;
     
@@ -126,6 +127,7 @@ const userEvents = async (req, res) => {
 }
 
 const userPrivateEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.params.userId;
 
@@ -149,6 +151,7 @@ const userPrivateEvents = async (req, res) => {
 }
 
 const userPublicEvents = async (req, res) => {
+    const db = req.app.locals.db; // Access the database from app.locals
     try {
         const userId = req.params.userId;
 
@@ -171,6 +174,25 @@ const userPublicEvents = async (req, res) => {
     return res;
 }
 
+const verifySession = (req, res, next) => {
+    const token = req.params.authToken;
+  
+    if (token) {
+        console.log('Token value:', token);
+    
+        jwt.verify(token, JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+
+            req.user = user; // Attach user information to the request
+            next();
+        });
+    } else {
+        res.sendStatus(401); // Unauthorized
+    }
+};
+
 module.exports = {
     createEvent,
     publicEvents,
@@ -179,5 +201,6 @@ module.exports = {
     currentUserEvents,
     userEvents,
     userPrivateEvents,
-    userPublicEvents
+    userPublicEvents,
+    verifySession
 };

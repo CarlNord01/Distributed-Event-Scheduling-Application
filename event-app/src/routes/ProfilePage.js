@@ -47,7 +47,8 @@ function ProfilePage() {
         const isOwner = session && session.userId === userId; // Check if viewing own profile
         if (isOwner) {
           // If viewing own profile, fetch all events
-          const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/${userId}`);
+          const token = localStorage.getItem('authToken');
+          const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/current/${token}`);
           setEvents(eventsResponse.data);
         } else {
           // Fetch friend status
@@ -60,7 +61,7 @@ function ProfilePage() {
             setEvents(eventsResponse.data);
           } else {
             // If not friends, fetch only public events
-            const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/${userId}/public`);
+            const eventsResponse = await axios.get(`${IP_ADDRESS}/events/user/public/${userId}`);
             setEvents(eventsResponse.data);
           }
         }

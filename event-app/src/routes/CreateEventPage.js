@@ -42,7 +42,7 @@ class CreateEventPage extends React.Component {
     const verifySession = async () => {
       try {
         const sessionStatus = await findSession();
-        if (sessionStatus) {
+        if (sessionStatus.status == 200) {
           // eslint-disable-next-line
           this.setState({ user: sessionStatus.user });
         } else {
@@ -119,7 +119,8 @@ class CreateEventPage extends React.Component {
     };
   
     // Send a POST request to create a new event
-    axios.post(`${IP_ADDRESS}/event/create-new`, eventData, { withCredentials: true })
+    const token = localStorage.getItem('authToken');
+    axios.post(`${IP_ADDRESS}/events/create-new/${token}`, eventData, { withCredentials: true })
       .then((response) => {
         // Redirect to the event details page after successful creation
         this.props.navigate(`/event/${response.data.eventId}`);

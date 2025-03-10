@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './index.js';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { createTheme, ThemeProvider, Avatar, IconButton, Button, ButtonGroup } from '@mui/material';
 import HomePage from './routes/HomePage';
@@ -51,7 +52,6 @@ function App() {
   // Handle avatar click to open the drawer
   const handleAvatarClick = () => {
     setDrawerOpen(true);
-    checkSession();
   };
 
   // Handle drawer close
@@ -60,37 +60,9 @@ function App() {
   };
 
   const handleLogout = async () => {
-    try {
-      const response = await fetch('http://9.223.136.195/user/logout', {
-        method: 'POST',
-        credentials: 'include', // Ensure cookies are sent with the request
-      });
-      console.log(response);
-  
-      if (response.ok) {
-        // Clear client-side session data (if any)
-        localStorage.removeItem('user'); // or any other session-related data
-        sessionStorage.clear();
-  
-        window.location.href = '/login'; // Send user to login page
-      } else {
-        console.error('Failed to log out');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
+    localStorage.clear();
+    setUser(null);
   };
-  
-  const checkSession = async () => {
-    try {
-        const response = await axios.get(`${IP_ADDRESS}/user/session`);
-        if (response.data.user) {
-            console.log('Active session found:', response.data.user);
-        }
-    } catch (error) {
-        console.log('No active session');
-    }
-};
 
   return (
     <ThemeProvider theme={darkTheme}> {/* Sets the theme of all MUI components to dark*/}

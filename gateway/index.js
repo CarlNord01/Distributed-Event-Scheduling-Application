@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const cookie = require('cookie');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 require('dotenv').config(); // Load environment variables
 
@@ -20,9 +21,17 @@ function createDynamicProxy(targetIP) {
   return createProxyMiddleware({
     target: `http://${targetIP}`,
     changeOrigin: true,
+    timeout: 120000, // 2 minutes (adjust as needed)
+    proxyTimeout: 120000, // 2 minutes (adjust as needed)
     onProxyReq: (proxyReq, req, res) => {
-      if (req.headers.authorization) {
-        proxyReq.setHeader('Authorization', req.headers.authorization);
+      if (req.headers.cookie) {
+        const parsedCookies = cookie.parse(req.headers.cookie);
+        const jwtToken = parsedCookies.authToken;
+        console.log('Token value: ', jwtToken);
+
+        if (jwtToken) {
+          proxyReq.setHeader('Authorization', `Bearer ${jwtToken}`);
+        }
       }
     },
     onError: (err, req, res) => {

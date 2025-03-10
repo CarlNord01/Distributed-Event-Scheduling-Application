@@ -8,6 +8,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import CustomCheckbox from './Checkbox';
 import CustomSnackbar from './CustomSnackbar';
 import { getUserFriends } from './../model-data/FriendData'; // Helper to fetch friends data
+import { findSession } from '../model-data/UserData';
 
 dayjs.extend(isSameOrAfter); // Extend dayjs to use isSameOrAfter method
 dayjs.extend(isSameOrBefore); // Extend dayjs to use isSameOrBefore method
@@ -38,28 +39,26 @@ function EventList() {
 
   const IP_ADDRESS = 'http://9.223.136.195';
   useEffect(() => {
-    // Fetch logged-in user's ID
-    const fetchUserId = async () => {
-        try {
-            const response = await fetch(`${IP_ADDRESS}/user/session`, {
-                credentials: 'include'
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const sessionData = await response.json();
-            setUserId(sessionData.user?.userId || null);
-        } catch (error) {
-            console.error('Error fetching user session:', error);
-            setUserId(null); // Ensure that we explicitly set this to null in case of an error
-        } finally {
-            setLoading(false);
+    const verifySession = async () => {
+      try {
+        const sessionStatus = await findSession();
+        if (sessionStatus.status == 200) {
+          // Get userId from localstorage
+          const userString = localStorage.getItem('user');
+          const userObject = JSON.parse(userString);
+          
+          setUserId(userObject.userId || null);
+        } else {
+          console.log('userId not found');
         }
+      } catch (error) {
+        console.error('Error fetching user session:', error);
+        setUserId(null); // Ensure that we explicitly set this to null in case of an error
+      } finally {
+        setLoading(false);
+      }
     };
-
-    fetchUserId();
+    verifySession();
   }, []);
 
   useEffect(() => {
@@ -107,8 +106,9 @@ function EventList() {
         await Promise.all(
           fetchedFriends.map(async (request) => {
             try {
+              const token = localStorage.getItem('authToken');
               const userResponse = await fetch(
-                `${IP_ADDRESS}/events/user/${request.id}/private`,
+                `${IP_ADDRESS}/events/user/private/${request.id}/${token}`,
                 { credentials: 'include' }
               );
               if (!userResponse.ok) {
@@ -124,8 +124,9 @@ function EventList() {
         setPrivateEvents(allPrivateEvents);
 
         // Fetch current user's private events
+        const token = localStorage.getItem('authToken');
         const userEventsResponse = await fetch(
-          `${IP_ADDRESS}/events/user/${userId}/private`,
+          `${IP_ADDRESS}/events/user/private/${userId}/${token}`,
           { credentials: 'include' }
         );
         if (!userEventsResponse.ok) {

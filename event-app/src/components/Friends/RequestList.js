@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
+import { findSession } from '../../model-data/UserData';
 
 function RequestList() {
     const [friendRequests, setFriendRequests] = useState([]);

@@ -15,8 +15,10 @@ function FriendList() {
       try {
         const sessionStatus = await findSession();
         if (sessionStatus.status == 200) {
-          setUserId(sessionStatus.user.userId);
-        } 
+          setUserId(sessionStatus.userId);
+        } else {
+          console.log('userId failed to set');
+        }
       } catch (error) {
         console.error('Error verifying session:', error);
         setError(error);

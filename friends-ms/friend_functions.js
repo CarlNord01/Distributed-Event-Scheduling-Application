@@ -1,4 +1,6 @@
 const { ObjectId } = require('mongodb');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
 
 const sendRequest = async (req, res) => {
     try {
@@ -266,6 +268,25 @@ const removeFriend = async (req, res) => {
     }
 }
 
+const verifySession = (req, res, next) => {
+    const token = req.params.authToken;
+  
+    if (token) {
+        console.log('Token value:', token);
+    
+        jwt.verify(token, JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+
+            req.user = user; // Attach user information to the request
+            next();
+        });
+    } else {
+        res.sendStatus(401); // Unauthorized
+    }
+};
+
 module.exports = {
     sendRequest,
     listRequests,
@@ -274,5 +295,6 @@ module.exports = {
     listFriends,
     checkFriendness,
     checkFriendRequestStatus,
-    removeFriend
+    removeFriend,
+    verifySession
 };

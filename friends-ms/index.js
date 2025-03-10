@@ -7,7 +7,8 @@ const { sendRequest,
     listFriends,
     checkFriendness,
     checkFriendRequestStatus,
-    removeFriend 
+    removeFriend,
+    verifySession 
 } = require('./friend_functions');
 const { MongoClient } = require('mongodb');
 const winston = require('winston');
@@ -39,26 +40,6 @@ app.use((req,res,next)=>{
 })
 
 const JWT_SECRET = process.env.JWT_SECRET || 'very-secret-haha'; 
-
-// Middleware for JWT verification
-const verifySession = (req, res, next) => {
-    const token = req.params.authToken;
-  
-    if (token) {
-        console.log('Token value:', token);
-    
-        jwt.verify(token, JWT_SECRET, (err, user) => {
-            if (err) {
-                return res.sendStatus(403); // Forbidden
-            }
-
-            req.user = user; // Attach user information to the request
-            next();
-        });
-    } else {
-        res.sendStatus(401); // Unauthorized
-    }
-};
 
 // MongoDB setup
 const username = process.env.DB_USERNAME;

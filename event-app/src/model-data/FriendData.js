@@ -57,10 +57,10 @@ export const getUserFriends = async () => {
 
     return friendsWithUsernames;
 
-} catch (error) {
+  } catch (error) {
     console.error('Error fetching friends:', error);
     return error;
-}
+  }
 };
 
 export const checkFriend = async (userId) => {

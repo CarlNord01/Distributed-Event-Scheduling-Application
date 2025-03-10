@@ -21,6 +21,8 @@ function createDynamicProxy(targetIP) {
   return createProxyMiddleware({
     target: `http://${targetIP}`,
     changeOrigin: true,
+    timeout: 120000, // 2 minutes (adjust as needed)
+    proxyTimeout: 120000, // 2 minutes (adjust as needed)
     onProxyReq: (proxyReq, req, res) => {
       if (req.headers.cookie) {
         const parsedCookies = cookie.parse(req.headers.cookie);

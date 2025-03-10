@@ -1,3 +1,5 @@
+@import './variables.css'; /* Import standardized css variables */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,14 +7,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  line-height: normal;                              /* Set default line height for text */
+  height: auto;                                     /* Fill page if content isn't enough to fill the screen*/
+  background-color: var(--clr-background-mid);      /* Main background color */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-@import './variables.css'; /* Import standardized css variables */
 
 .App {
   text-align: center;
@@ -24,12 +28,6 @@ code {
 
 a {
   text-decoration: none;                            /* Removes the underline from links */
-}
-
-body {
-  line-height: normal;                              /* Set default line height for text */
-  height: auto;                                     /* Fill page if content isn't enough to fill the screen*/
-  background-color: var(--clr-background-mid);      /* Main background color */
 }
 
 header {

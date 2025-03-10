@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './index.js';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { createTheme, ThemeProvider, Avatar, IconButton, Button, ButtonGroup } from '@mui/material';
 import HomePage from './routes/HomePage';

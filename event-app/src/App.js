@@ -62,7 +62,6 @@ function App() {
   const handleLogout = async () => {
     localStorage.clear();
     setUser(null);
-    navigate('/login');
   };
 
   return (

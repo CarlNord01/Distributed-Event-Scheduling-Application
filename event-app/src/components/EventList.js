@@ -8,6 +8,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import CustomCheckbox from './Checkbox';
 import CustomSnackbar from './CustomSnackbar';
 import { getUserFriends } from './../model-data/FriendData'; // Helper to fetch friends data
+import { findSession } from '../model-data/UserData';
 
 dayjs.extend(isSameOrAfter); // Extend dayjs to use isSameOrAfter method
 dayjs.extend(isSameOrBefore); // Extend dayjs to use isSameOrBefore method

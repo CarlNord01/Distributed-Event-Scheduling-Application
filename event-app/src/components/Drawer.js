@@ -56,6 +56,12 @@ export default function ProfileDrawer({ open, onClose, handleLogout }) {
     onClose();
   };
 
+  const handleNavigateToLogout = () => {
+    handleLogout();
+    navigate('/login');
+    onClose();
+  };
+
   const list = () => (
     <Box
       sx={{ width: 250 }}
@@ -96,7 +102,7 @@ export default function ProfileDrawer({ open, onClose, handleLogout }) {
 
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout}>
+          <ListItemButton onClick={handleNavigateToLogout}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

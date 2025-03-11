@@ -77,6 +77,27 @@ The languages we are going to use are:
    In your terminal, navigate to the Terraform configuration directory within the repository and run:
    ```bash
    terraform apply
+6. **Get Kube.config:**
+
+   After the deployment, retrieve your kube.config file to connect to your Kubernetes cluster.
+
+7. **Fix Secrets:**
+
+    Update and configure the required secrets. In the GitHub repository, ensure the following secrets are set:
+     - CONTAINER_REGISTRY_LOGIN_SERVER
+     - CONTAINER_REGISTRY_PASSWORD
+     - CONTAINER_REGISTRY_USERNAME
+     - KUBE_CONFIG (needs base64 encryption)
+   
+    Additionally, set up Kubernetes secrets for MongoDB credentials (username and password).
+
+ 8. **Change IP Addresses in Code:**
+
+    Update any hard-coded IP addresses in the code to match your Azure deployment configuration.
+      - Change all IP adresses in event-app to the current gateway IP adress.
+      - Change origin IP adress in gateway to current event-app IP adress.
+      - Change respective createDynamicProxy IP adress in gateway to correct clusterIP for each micro service.
+      
 
 ## License
 This project is licensed under the MIT License.

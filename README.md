@@ -44,6 +44,7 @@ The languages we are going to use are:
 
 - **Node.js:** Ensure you have Node.js installed (compatible with version 20.17.0 LTS). Download it from the [Node.js Official Website](https://nodejs.org/).
 - **Terraform:** Install Terraform. See the [Terraform Downloads](https://www.terraform.io/downloads.html) page.
+- **Kubernetes:** Install Kubernetes command-line tool. See the [Kubernetes Downloads](https://kubernetes.io/docs/tasks/tools/) page.
 - **Azure CLI:** Install the Azure CLI. Follow the instructions on the [Azure CLI Installation Page](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 - **Azure Account:** Make sure you have an active Azure subscription.
 

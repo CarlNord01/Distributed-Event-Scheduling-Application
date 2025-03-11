@@ -48,25 +48,19 @@ To compile and run the application, follow these steps:
 
 2. **Install Node.js**: Ensure you have Node.js installed on your machine. You can download it from [Node.js Official Website](https://nodejs.org/). Ensure the installed version of Node.js is compatible with version 20.17.0 LTS.
 
-3. **Open Two Terminals**:
-   - One for the backend:
-     - Navigate to the backend directory of the application (typically `Event-Scheduling-Application/backend`) in your terminal.
-     - Run the following commands:
-       ```bash
-       npm install
-       npm start
-       ```
+3. **Install Terraform**
 
-   - One for the frontend:
-     - Navigate to the frontend directory of the application (typically `Event-Scheduling-Application/event-app`) in another terminal.
-     - Run the following commands:
-       ```bash
-       npm install
-       npm start
-       ```
+4. **Install Azure CLI**
 
-4. **Access the Application**: Once both the backend and frontend are running, you can access the application by navigating to `http://localhost:3000` in your web browser. If you are not redirected to the application automatically, enter the URL manually.
+5. **Run terraform apply**
 
+6. **Get Kube.config**
+
+7. **Fix secrets**
+
+8. **Change IP Adresses in code**
+
+9. **Enjoy!**
 ---
 
 ## License

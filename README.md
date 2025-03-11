@@ -37,31 +37,43 @@ The languages we are going to use are:
 
 ## How to Compile and Run:
 
-To compile and run the application, follow these steps:
+## Prerequisites
 
-1. **Download the Code**: You can download the repository in two ways:
-   - Clone the repository to your local machine by typing the following command in your terminal:
+- **Node.js:** Ensure you have Node.js installed (compatible with version 20.17.0 LTS). Download it from the [Node.js Official Website](https://nodejs.org/).
+- **Terraform:** Install Terraform. See the [Terraform Downloads](https://www.terraform.io/downloads.html) page.
+- **Azure CLI:** Install the Azure CLI. Follow the instructions on the [Azure CLI Installation Page](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
+- **Azure Account:** Make sure you have an active Azure subscription.
+
+## Deployment Instructions
+
+1. **Download the Code:**
+
+   You can obtain the repository in one of two ways:
+
+   - **Clone the Repository:**
      ```bash
      git clone https://github.com/CarlNord01/Distributed-Event-Scheduling-Application.git
      ```
-   - Download the ZIP file for the application by clicking "Download ZIP" from the GitHub repository.
+   - **Download ZIP:**  
+     Click the "Download ZIP" button on the GitHub repository page.
 
-2. **Install Node.js**: Ensure you have Node.js installed on your machine. You can download it from [Node.js Official Website](https://nodejs.org/). Ensure the installed version of Node.js is compatible with version 20.17.0 LTS.
+2. **Install Node.js:**
 
-3. **Install Terraform**
+   Verify that Node.js is installed and that the version is compatible with version 20.17.0 LTS.
 
-4. **Install Azure CLI**
+3. **Install Terraform:**
 
-5. **Run terraform apply**
+   Follow the installation instructions available at [Terraform Downloads](https://www.terraform.io/downloads.html).
 
-6. **Get Kube.config**
+4. **Install Azure CLI:**
 
-7. **Fix secrets**
+   Follow the installation guide on the [Azure CLI Installation Page](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 
-8. **Change IP Adresses in code**
+5. **Run Terraform Apply:**
 
-9. **Enjoy!**
----
+   In your terminal, navigate to the Terraform configuration directory within the repository and run:
+   ```bash
+   terraform apply
 
 ## License
 This project is licensed under the MIT License.

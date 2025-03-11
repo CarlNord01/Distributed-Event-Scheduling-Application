@@ -1,5 +1,5 @@
 # Distributed Event Scheduler PRO
-A web application for scheduling and managing events, built using the MERN stack (MongoDB, Express, React, Node.js) using Create React App.
+A web application for scheduling and managing events, built using the MERN stack (MongoDB, Express, React, Node.js) using Create React App. WE will also deploy the application on the clod and make it scalable and fault tolerant using Azure.
 
 # Group Number:
 Group 13
@@ -26,6 +26,8 @@ The languages we are going to use are:
 - JavaScript
 - HTML
 - CSS
+- HCL
+- YAML
 
 ## Technologies Used:
 - **MERN Stack**: MongoDB, Express, React, Node.js
@@ -34,6 +36,7 @@ The languages we are going to use are:
 - **Material UI** and **Material UI X**: For UI components and styling.
 - **Microsoft Azure** for cloud distribution
 - **Kubernetes** for containerization
+- **Terraform** for deploying everything on Azure
 
 ## How to Compile and Run:
 
